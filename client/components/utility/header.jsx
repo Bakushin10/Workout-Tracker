@@ -32,7 +32,8 @@ export default class Head extends React.Component {
             </Menu.Item>
           </Menu>
           </Header>
-        {/* </div> */}
+        {/* </div> 
+        */}
       </Layout>
     );
   }
