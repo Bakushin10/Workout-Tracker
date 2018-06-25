@@ -10,18 +10,19 @@ export default class Head extends React.Component {
     return (
       <Layout>
         {/* <div className="web-head"> */}
-        <Header>
+        <Header className="header">
           <Menu 
             theme="dark"
             mode="horizontal"
+            style={{ lineHeight: '64px' }}
           >
             <Menu.Item key="1">
-                <a className="special-text" href="/#">
+                <a className="special-text" href="/#/">
                     Home
                 </a>
             </Menu.Item>
             <Menu.Item key="2">
-              <a href="/#/Professor">
+              <a href="/#/Tracker">
                 Tracker
               </a>
             </Menu.Item>

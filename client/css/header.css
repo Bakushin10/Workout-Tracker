@@ -1,3 +1,6 @@
+/*Google Font Song Myung*/
+@import url('https://fonts.googleapis.com/css?family=Song+Myung');
+
 .toggle{
     width: 100%;
     padding: 10px 20px;
@@ -7,6 +10,11 @@
     color: #fff;
     font-size: 30px;
     display: none
+}
+.welcomeText{
+    font-family: 'Song Myung', serif;
+    font-size: 50px;
+    text-align: center;
 }
 @media(max-width:768px){
     .toggle{
