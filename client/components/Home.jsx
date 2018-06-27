@@ -20,16 +20,16 @@ export default class Home extends React.Component {
                 </Col>
             </Row>
             <div className="gutter-example">
-                <Row gutter={16}>
+                <Row type="flex" justify="center">
                     <a href="/#/Update">
-                        <Col className="gutter-row" span={4}>
+                        <Col span={4} className="gutter-row" span={4}>
                             <Button type="primary" className = "fontSongMyung">
                                 update
                             </Button>
                         </Col>
                     </a>
                     <a href="/#/Home">
-                        <Col className="gutter-row" span={4}>
+                        <Col span={4} offset = {2} className="gutter-row" span={4}>
                             <Button type="primary" className = "fontSongMyung">
                                 Check Your Progress
                             </Button>

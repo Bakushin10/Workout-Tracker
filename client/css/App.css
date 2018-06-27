@@ -57,3 +57,9 @@ margin:0px auto;
 .closebtn{
  float:right;
 }
+
+/* Vertical line*/
+.vl {
+  border-left: 3px solid rgba(97, 93, 93, 0.85);
+  height: 500px;
+}
