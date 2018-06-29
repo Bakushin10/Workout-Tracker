@@ -9,59 +9,66 @@ export default class Home extends React.Component {
     constructor(){
         super();
         this.state = {
+            selectedItems : [],
             chestDetail : false,
-            chest : {
-                BarbellBenchPress : false,
-                FlatBenchDumbbellPress : false,
-                InclineDumbbellPress : false,
-                LowInclineBarbellBenchPress : false,
-                SeatedMachineChestPress : false,
-                Dips : false,
-                InclineBenchCableFly : false,
-                pushUps : false
-            },
-            back : {
-                Deadlist : false,
-                Pullups : false,
-                ChinUps : false,
-                WideGripRearPullUp : false,
-                OneArmDumbellRow : false,
-                V_barPulldown : false,
-                WideBarPulldown : false,
-            },
-            shoulder :{
-                StandingDumbellPress : false,
-                StandingMilitaryPress : false,
-                SeatedBarbellMilitaryPress : false,
-                OneArmSideLaterals : false,
-                PowerPartials : false,
-            },
-            Biceps : {
-                EZBarCurl : false,
-                CloseGripEZBarCurl : false,
-                ConcentrationCurls : false,
-                HammerCurls : false,
-                InclineDumbbellCurls : false,
-                CableCurl : false
-            },
-            Triceps : {
-                TricepsPushdown : false,
-                BenchDip : false,
-                EZBarTriceps : false,
-                SeatedTricepsPress : false,
-                CloseGripBarbellBenchPress : false
-            },
-            Legs :{
-                Deadlist : false,
-                LegPress : false,
-                Squat : false
+            backDetail : false,
+            muscleGroup :{
+                chest : {
+                    BarbellBenchPress : false,
+                    FlatBenchDumbbellPress : false,
+                    InclineDumbbellPress : false,
+                    LowInclineBarbellBenchPress : false,
+                    SeatedMachineChestPress : false,
+                    Dips : false,
+                    InclineBenchCableFly : false,
+                    pushUps : false
+                },
+                back : {
+                    Deadlist : false,
+                    Pullups : false,
+                    ChinUps : false,
+                    WideGripRearPullUp : false,
+                    OneArmDumbellRow : false,
+                    V_barPulldown : false,
+                    WideBarPulldown : false,
+                },
+                shoulder :{
+                    StandingDumbellPress : false,
+                    StandingMilitaryPress : false,
+                    SeatedBarbellMilitaryPress : false,
+                    OneArmSideLaterals : false,
+                    PowerPartials : false,
+                },
+                biceps : {
+                    EZBarCurl : false,
+                    CloseGripEZBarCurl : false,
+                    ConcentrationCurls : false,
+                    HammerCurls : false,
+                    InclineDumbbellCurls : false,
+                    CableCurl : false
+                },
+                triceps : {
+                    TricepsPushdown : false,
+                    BenchDip : false,
+                    EZBarTriceps : false,
+                    SeatedTricepsPress : false,
+                    CloseGripBarbellBenchPress : false
+                },
+                legs :{
+                    Deadlist : false,
+                    LegPress : false,
+                    Squat : false
+                }
             }
         }
         this.ShowChestDetails = this.ShowChestDetails.bind(this);
-        
+        this.ShowBackDetails = this.ShowBackDetails.bind(this);
+
         this.chestOnChange = this.chestOnChange.bind(this);
-        this.ChestSelectedItem = this.ChestSelectedItem.bind(this);
+        this.backOnChange = this.backOnChange.bind(this);
+        this.UpdateSelectedItem = this.UpdateSelectedItem.bind(this);
         this.chestItemUpdate = this.chestItemUpdate.bind(this);
+        this.ShowSelectedItems = this.ShowSelectedItems.bind(this);
     }
 
     ShowChestDetails(){
@@ -88,41 +95,102 @@ export default class Home extends React.Component {
         }
     }
 
-    /** ---------------------- chest ------------------------------ ***/
+    ShowBackDetails(){
+        if(this.state.backDetail){
+            return(
+                <div>
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "Deadlist") } >Deadlist</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "Pullups") }>Pullups</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "ChinUps") }>ChinUps</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "WideGripRearPullUp") }>Wide-Grip Rear PullUp</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "OneArmDumbellRow") }>One Arm Dumbell Row</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "V_barPulldown") }>V-bar Pulldown</Checkbox>
+                    <br />
+                    <Checkbox onChange = { (e) => this.backItemUpdate(e, "WideBarPulldown") }>Wide Bar Pulldown </Checkbox>
+                </div>
+            )
+        }
+    }
+
+    /*
+     * 
+     * ---------------------- chest -----------------------------
+     *
+     */
     chestOnChange(e) {
         if(this.state.chestDetail){
             this.setState({chestDetail : false})
 
-            for(var item in this.state.chest){ // make the all chest elements false
-                this.state.chest[item] = false;
+            for(var item in this.state.muscleGroup.chest){ // make the all chest elements false
+                this.state.muscleGroup.chest[item] = false;
             }
+            this.UpdateSelectedItem("chest")
         }else{
             this.setState({chestDetail : true})
         }
+        console.log(this.state.muscleGroup.chest)
     }
 
     chestItemUpdate(e, itemToUpdate){
-        let chest = Object.assign({}, this.state.chest);
-        chest[itemToUpdate] ^= true; //flip the condition everytime 
-        this.setState({chest})
-        console.log(this.state.chest)
+        let muscleGroup = Object.assign({}, this.state.muscleGroup);
+        muscleGroup["chest"][itemToUpdate] ^= true; //flip the condition everytime
+        this.setState({muscleGroup})
+        this.UpdateSelectedItem("chest");
     }
 
-    ChestSelectedItem(){
-        var chestSelectedItem = []
+    /*
+     * 
+     * ---------------------- back -----------------------------
+     *
+     */
+    backOnChange(e) {
+        if(this.state.backDetail){
+            this.setState({backDetail : false})
 
-        for(var item in this.state.chest){
-            if(this.state.chest[item]){
-                chestSelectedItem.push(<div>{item}</div>)
+            for(var item in this.state.muscleGroup.back){ // make the all chest elements false
+                this.state.muscleGroup.back[item] = false;
+            }
+        }else{
+            this.setState({backDetail : true})
+        }
+    }
+
+    backItemUpdate(e, itemToUpdate){
+        let muscleGroup = Object.assign({}, this.state.muscleGroup);
+        muscleGroup["back"][itemToUpdate] ^= true; //flip the condition everytime
+        this.setState({muscleGroup})
+        this.UpdateSelectedItem("back");
+    }
+
+    /**
+     *  update UpdateSelectedItem() so that it keeps that items in selectedItems and add new items to the selectedItems
+     * 
+     */
+    UpdateSelectedItem(muscleGroup){
+        var updatedSelectedItem = [];
+        for(var item in this.state.muscleGroup[muscleGroup]){
+            if(this.state.muscleGroup[muscleGroup][item]){
+                updatedSelectedItem.push(<div>{item}</div>)
             }
         }
 
         // adding the mustle groupe name at the beginning of the array
-        if(chestSelectedItem.length >= 1){
-            chestSelectedItem.unshift(<div><b>Chest</b></div>)
+        if(updatedSelectedItem.length >= 1){
+            updatedSelectedItem.unshift(<div><b>{muscleGroup}</b></div>)
         }
-        return chestSelectedItem;
+
+        this.setState({selectedItems : updatedSelectedItem })
     }
+
+    ShowSelectedItems(){
+        return this.state.selectedItems;
+    }
+
 
     render() {
       return (
@@ -136,12 +204,13 @@ export default class Home extends React.Component {
                 <Col span={5} offset = {6}>
                     <Checkbox onChange={this.chestOnChange}>Chest</Checkbox>
                     {this.ShowChestDetails()}
-                    <Checkbox >Back</Checkbox>
+                    <Checkbox onChange={this.backOnChange}>Back</Checkbox>
+                    {this.ShowBackDetails()}
                 </Col>
                 <Col span = {2} className = "vl"></Col>
                 <Col span={8}>
                     selected item goes here
-                    {this.ChestSelectedItem()}
+                    { this.ShowSelectedItems() }
                 </Col>
         </div>
       );
