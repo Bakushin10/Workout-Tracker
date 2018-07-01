@@ -27,7 +27,7 @@ export default class Head extends React.Component {
               </a>
             </Menu.Item>
             <Menu.Item key="3">
-              <a href="/#/Class" className="items">
+              <a href="/#/Update" className="items">
                 Update your Track
               </a>
             </Menu.Item>

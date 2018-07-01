@@ -3,6 +3,7 @@ import { Row, Col, Button, Checkbox} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+const MUSCLEGROUP = ['chest', 'back', 'shoulder', 'biceps', 'triceps']
 
 export default class Home extends React.Component {
 
@@ -65,20 +66,22 @@ export default class Home extends React.Component {
                 }
             }
         }
-        this.ShowChestDetails = this.ShowChestDetails.bind(this);
-        this.ShowBackDetails = this.ShowBackDetails.bind(this);
-        this.ShowShoulderDetails = this.ShowShoulderDetails.bind(this);
-        this.ShowBicepsDetails = this.ShowBicepsDetails.bind(this);
-        this.ShowTricepsDetails = this.ShowTricepsDetails.bind(this);
-        this.ShowLegsDetails = this.ShowLegsDetails.bind(this);
+        this.showChestDetails = this.showChestDetails.bind(this);
+        this.showBackDetails = this.showBackDetails.bind(this);
+        this.showShoulderDetails = this.showShoulderDetails.bind(this);
+        this.showBicepsDetails = this.showBicepsDetails.bind(this);
+        this.showTricepsDetails = this.showTricepsDetails.bind(this);
+        this.showLegsDetails = this.showLegsDetails.bind(this);
 
         this.muscleOnChange = this.muscleOnChange.bind(this);
-        this.UpdateSelectedItem = this.UpdateSelectedItem.bind(this);
+        this.updateSelectedItem = this.updateSelectedItem.bind(this);
         this.updateMuscleItem = this.updateMuscleItem.bind(this);
-        this.ShowSelectedItems = this.ShowSelectedItems.bind(this);
+        this.showSelectedItems = this.showSelectedItems.bind(this);
+        this.submitButton =  this.submitButton.bind(this);
+        this.submit = this.submit.bind(this);
     }
 
-    ShowChestDetails(){
+    showChestDetails(){
         if(this.state.chestDetail){
             return(
                 <div>
@@ -102,7 +105,7 @@ export default class Home extends React.Component {
         }
     }
 
-    ShowBackDetails(){
+    showBackDetails(){
         if(this.state.backDetail){
             return(
                 <div>
@@ -124,7 +127,7 @@ export default class Home extends React.Component {
         }
     }
 
-    ShowShoulderDetails(){
+    showShoulderDetails(){
         if(this.state.shoulderDetail){
             return(
                 <div>
@@ -144,7 +147,7 @@ export default class Home extends React.Component {
         }
     }
 
-    ShowBicepsDetails(){
+    showBicepsDetails(){
         if(this.state.bicepsDetail){
             return(
                 <div>
@@ -164,7 +167,7 @@ export default class Home extends React.Component {
         }
     }
 
-    ShowTricepsDetails(){
+    showTricepsDetails(){
         if(this.state.tricepsDetail){
             return(
                 <div>
@@ -182,7 +185,7 @@ export default class Home extends React.Component {
         }
     }
 
-    ShowLegsDetails(){
+    showLegsDetails(){
         if(this.state.legsDetail){
             return(
                 <div>
@@ -200,23 +203,25 @@ export default class Home extends React.Component {
         var muscleDetail = muscle + "Detail";
         if(this.state[muscleDetail]){
             this.setState({ [muscleDetail] : false})
-            for(var item in this.state.muscleGroup[muscle]){ // make the all chest elements false
+            for(var item in this.state.muscleGroup[muscle]){
                 this.state.muscleGroup[muscle][item] = false;
             }
-            this.UpdateSelectedItem(muscle)
         }else{
             this.setState({ [muscleDetail] : true})
         }
+        console.log(muscle)
+        console.log(this.state[muscleDetail])
+        this.updateSelectedItem()
     }
 
     updateMuscleItem(e, muscle ,itemToUpdate){
         let muscleGroup = Object.assign({}, this.state.muscleGroup);
         muscleGroup[muscle][itemToUpdate] ^= true; //flip the condition everytime
         this.setState({muscleGroup})
-        this.UpdateSelectedItem(muscle);
+        this.updateSelectedItem();
     }
-
-    UpdateSelectedItem(muscleGroup){
+    
+    updateSelectedItem(){
         var updatedSelectedItem = [];
         
         for(var muscle in this.state.muscleGroup){
@@ -230,11 +235,24 @@ export default class Home extends React.Component {
                 }
             }
         }
+
         this.setState({selectedItems : updatedSelectedItem })
     }
 
-    ShowSelectedItems(){
-        return this.state.selectedItems;
+    showSelectedItems(){
+       return this.state.selectedItems;
+    }
+
+    submitButton(){
+        if(this.state.selectedItems.length === 0){
+            return (<Button type="primary" disabled>Submit</Button>)
+        }else{
+            return (<Button type="primary" onClick = {this.submit}>Submit</Button>)
+        }
+    }
+
+    submit(){
+        console.log("submit")
     }
 
     render() {
@@ -245,25 +263,27 @@ export default class Home extends React.Component {
             <div className = "welcomeText">
                 What did you workout?
             </div>
-            
                 <Col span={5} offset = {6}>
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "chest")}><b>Chest</b></Checkbox>
-                    {this.ShowChestDetails()}
+                    {this.showChestDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "back")}><b>Back</b></Checkbox>
-                    {this.ShowBackDetails()}
+                    {this.showBackDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "shoulder")}><b>shoulder</b></Checkbox>
-                    {this.ShowShoulderDetails()}
+                    {this.showShoulderDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "biceps")}><b>biceps</b></Checkbox>
-                    {this.ShowBicepsDetails()}
+                    {this.showBicepsDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "triceps")}><b>triceps</b></Checkbox>
-                    {this.ShowTricepsDetails()}
+                    {this.showTricepsDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "legs")}><b>Legs</b></Checkbox>
-                    {this.ShowLegsDetails()}
+                    {this.showLegsDetails()}
                 </Col>
                 <Col span = {2} className = "vl"></Col>
                 <Col span={8}>
                     selected item goes here
-                    { this.ShowSelectedItems() }
+                    { this.showSelectedItems() }
+                    <div>
+                        { this.submitButton()}
+                    </div>
                 </Col>
         </div>
       );
