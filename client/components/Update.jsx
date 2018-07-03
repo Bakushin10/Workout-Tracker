@@ -1,15 +1,22 @@
 import React from 'react';
-import { Row, Col, Button, Checkbox} from 'antd';
+import { Row, Col, Button, Checkbox, DatePicker} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 const MUSCLEGROUP = ['chest', 'back', 'shoulder', 'biceps', 'triceps']
+var querystring = require('querystring');
+
 
 export default class Home extends React.Component {
 
     constructor(){
         super();
         this.state = {
+            /*
+
+                will need ot add a date state
+
+            */
             selectedItems : [],
             chestDetail : false,
             backDetail : false,
@@ -78,6 +85,7 @@ export default class Home extends React.Component {
         this.updateMuscleItem = this.updateMuscleItem.bind(this);
         this.showSelectedItems = this.showSelectedItems.bind(this);
         this.submitButton =  this.submitButton.bind(this);
+        this.updatePickerOnChange = this.updatePickerOnChange.bind(this);
         this.submit = this.submit.bind(this);
     }
 
@@ -209,8 +217,6 @@ export default class Home extends React.Component {
         }else{
             this.setState({ [muscleDetail] : true})
         }
-        console.log(muscle)
-        console.log(this.state[muscleDetail])
         this.updateSelectedItem()
     }
 
@@ -251,8 +257,55 @@ export default class Home extends React.Component {
         }
     }
 
+    updatePickerOnChange(e) {
+        this.setState({date: e.target.value})
+        console.log(this.state.date)
+    }
+
     submit(){
-        console.log("submit")
+        axios.post('/updateWorkout',
+        querystring.stringify({
+                    BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
+                    // FlatBenchDumbbellPress : Boolean,
+                    // InclineDumbbellPress : Boolean,
+                    // LowInclineBarbellBenchPress : Boolean,
+                    // SeatedMachineChestPress : Boolean,
+                    // Dips : Boolean,
+                    // InclineBenchCableFly : Boolean,
+                    // pushUps : Boolean,
+                    // Deadlist : Boolean,
+                    // Pullups : boolean,
+                    // ChinUps : Boolean,
+                    // WideGripRearPullUp : Boolean,
+                    // OneArmDumbellRow : Boolean,
+                    // V_barPulldown : Boolean,
+                    // WideBarPulldown : Boolean,
+                    // StandingDumbellPress : Boolean,
+                    // StandingMilitaryPress : Boolean,
+                    // SeatedBarbellMilitaryPress : Boolean,
+                    // OneArmSideLaterals : Boolean,
+                    // PowerPartials : Boolean,
+                    // EZBarCurl : Boolean,
+                    // CloseGripEZBarCurl : Boolean,
+                    // ConcentrationCurls : Boolean,
+                    // HammerCurls : Boolean,
+                    // InclineDumbbellCurls : Boolean,
+                    // CableCurl : Boolean,
+                    // TricepsPushdown : Boolean,
+                    // BenchDip : Boolean,
+                    // EZBarTriceps : Boolean,
+                    // SeatedTricepsPress : Boolean,
+                    // CloseGripBarbellBenchPress : Boolean,
+                    // Deadlist : Boolean,
+                    // LegPress : Boolean,
+                    // Squat : Boolean
+                }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      )
     }
 
     render() {

@@ -66,4 +66,24 @@ router.get('/getAll',function(req, res) {
  }
 });
 
+router.route('/updateWorkout').post(function(req,res){
+    console.log("updateWorkout")
+    console.log(req.body)
+//     var monthRec = req.query.month;
+//     var yearRec = req.query.year;
+//     if(monthRec && monthRec != 'All'){
+//         Expense.find({$and: [ {month: monthRec}, {year: yearRec}]}, function(err, expenses) {
+//         if (err)
+//             res.send(err);
+//         res.json(expenses);
+//   });
+//  } else {
+//     Expense.find({year: yearRec}, function(err, expenses) {
+//         if (err)
+//             res.send(err);
+//         res.json(expenses);
+//     });
+//  }
+});
+
 module.exports = router;
