@@ -67,23 +67,64 @@ router.get('/getAll',function(req, res) {
 });
 
 router.route('/updateWorkout').post(function(req,res){
-    console.log("updateWorkout")
-    console.log(req.body)
-//     var monthRec = req.query.month;
-//     var yearRec = req.query.year;
-//     if(monthRec && monthRec != 'All'){
-//         Expense.find({$and: [ {month: monthRec}, {year: yearRec}]}, function(err, expenses) {
-//         if (err)
-//             res.send(err);
-//         res.json(expenses);
-//   });
-//  } else {
-//     Expense.find({year: yearRec}, function(err, expenses) {
-//         if (err)
-//             res.send(err);
-//         res.json(expenses);
-//     });
-//  }
+    var Workout = require('../../models/workout');
+    var workout = new Workout();
+
+    workout.muscleGroup = {
+        chest : [{
+            BarbellBenchPress : req.body.BarbellBenchPress,
+            FlatBenchDumbbellPress : req.body.FlatBenchDumbbellPress,
+            InclineDumbbellPress : req.body.InclineDumbbellPress,
+            LowInclineBarbellBenchPress : req.body.LowInclineBarbellBenchPress,
+            SeatedMachineChestPress : req.body.SeatedMachineChestPress,
+            Dips : req.body.Dips,
+            InclineBenchCableFly : req.body.InclineBenchCableFly,
+            pushUps : req.body.pushUps
+        }],
+        back : [{
+            Deadlist : req.body.Deadlist,
+            Pullups : req.body.Pullups,
+            ChinUps : req.body.ChinUps,
+            WideGripRearPullUp : req.body.WideGripRearPullUp,
+            OneArmDumbellRow : req.body.OneArmDumbellRow,
+            V_barPulldown : req.body.V_barPulldown,
+            WideBarPulldown : req.body.WideBarPulldown,
+        }],
+        shoulder :[{
+            StandingDumbellPress : req.body.StandingDumbellPress,
+            StandingMilitaryPress : req.body.StandingMilitaryPress,
+            SeatedBarbellMilitaryPress : req.body.SeatedBarbellMilitaryPress,
+            OneArmSideLaterals : req.body.OneArmSideLaterals,
+            PowerPartials : req.body.PowerPartials,
+        }],
+        biceps : [{
+            EZBarCurl : req.body.EZBarCurl,
+            CloseGripEZBarCurl : req.body.CloseGripEZBarCurl,
+            ConcentrationCurls : req.body.ConcentrationCurls,
+            HammerCurls : req.body.HammerCurls,
+            InclineDumbbellCurls : req.body.InclineDumbbellCurls,
+            CableCurl : req.body.CableCurl
+        }],
+        triceps : [{
+            TricepsPushdown : req.body.TricepsPushdown,
+            BenchDip : req.body.BenchDip,
+            EZBarTriceps : req.body.EZBarTriceps,
+            SeatedTricepsPress : req.body.SeatedTricepsPress,
+            CloseGripBarbellBenchPress : req.body.CloseGripBarbellBenchPress
+        }],
+        legs :[{
+            LegPress : req.body.LegPress,
+            Squat : req.body.Squat
+        }]
+    }
+
+    console.log(workout)
+
+    workout.save(function(err) {
+        if (err)
+            res.send(err);
+        res.send('Expense successfully added!');
+    });
 });
 
 module.exports = router;
