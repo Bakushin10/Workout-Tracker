@@ -203,16 +203,26 @@ export default class Home extends React.Component {
         }
     }
 
+
     muscleOnChange(e, muscle) {
         var muscleDetail = muscle + "Detail";
         if(this.state[muscleDetail]){
-            this.setState({ [muscleDetail] : false})
+            this.state[muscleDetail] = false;
             for(var item in this.state.muscleGroup[muscle]){
                 this.state.muscleGroup[muscle][item] = false;
             }
         }else{
             this.setState({ [muscleDetail] : true})
         }
+
+       // var muscleGroup = this.state.muscleGroup
+       /*
+        I need to find a way to execute setstate and then execute this.updateSelectedItem()
+
+
+
+       */
+        console.log(this.state[muscleDetail])
         this.updateSelectedItem()
     }
 
