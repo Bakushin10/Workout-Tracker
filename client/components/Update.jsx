@@ -3,6 +3,7 @@ import { Row, Col, Button, Checkbox, DatePicker} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 var querystring = require('querystring');
 
 
@@ -16,6 +17,8 @@ export default class Home extends React.Component {
                 will need to add a date state
 
             */
+            date : "", // ex) 7 22 2018
+            day : "", // Mon, Tues, Wed...
             selectedItems : [],
             chestDetail : false,
             backDetail : false,
@@ -85,6 +88,9 @@ export default class Home extends React.Component {
         this.submitButton =  this.submitButton.bind(this);
         this.updatePickerOnChange = this.updatePickerOnChange.bind(this);
         this.submit = this.submit.bind(this);
+        this.datePicker = this.datePicker.bind(this);
+        this.displayDate = this.displayDate.bind(this);
+        this.workoutPicker = this.workoutPicker.bind(this);
     }
 
     showChestDetails(){
@@ -214,15 +220,6 @@ export default class Home extends React.Component {
         }else{
             this.setState({ [muscleDetail] : true})
         }
-
-       // var muscleGroup = this.state.muscleGroup
-       /*
-        I need to find a way to execute setstate and then execute this.updateSelectedItem()
-
-
-
-       */
-        console.log(this.state[muscleDetail])
         this.updateSelectedItem()
     }
 
@@ -264,13 +261,73 @@ export default class Home extends React.Component {
     }
 
     updatePickerOnChange(e) {
-        this.setState({date: e.target.value})
-        console.log(this.state.date)
+        var date = e._d.toString().split(" ");
+        //console.log(date)
+        const day = date[0];
+        const datePicked = date[1] + "-" + date[2] + "-" + date[3];
+
+        this.setState({date: datePicked})
+        this.setState({day : day})
+    }
+
+    datePicker(){
+        return(
+            <div className = "button-center">
+                <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
+            </div>
+        )
+    }
+
+    displayDate(){
+        if(this.state.date === ""){
+            return(
+                <div className = "wordColor">Pick a Date First</div>
+            )
+        }else{
+            return(
+                <div>{ this.state.day + " " + this.state.date }</div>
+            )
+        }
+    }
+
+    workoutPicker(){
+        if(this.state.date === ""){
+            return(
+                <div>
+                    <Checkbox disabled><b>Chest</b></Checkbox>
+                    <Checkbox disabled><b>Back</b></Checkbox>
+                    <Checkbox disabled><b>shoulder</b></Checkbox>
+                    <Checkbox disabled><b>biceps</b></Checkbox>
+                    <Checkbox disabled><b>triceps</b></Checkbox>
+                    <Checkbox disabled><b>Legs</b></Checkbox>
+                </div>
+            )
+        }else{
+            return(
+                <div>
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "chest")}><b>Chest</b></Checkbox>
+                    {this.showChestDetails()}
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "back")}><b>Back</b></Checkbox>
+                    {this.showBackDetails()}
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "shoulder")}><b>shoulder</b></Checkbox>
+                    {this.showShoulderDetails()}
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "biceps")}><b>biceps</b></Checkbox>
+                    {this.showBicepsDetails()}
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "triceps")}><b>triceps</b></Checkbox>
+                    {this.showTricepsDetails()}
+                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "legs")}><b>Legs</b></Checkbox>
+                    {this.showLegsDetails()}
+                </div>
+            )
+        }
     }
 
     submit(){
         axios.post('/updateWorkout',
         querystring.stringify({
+
+                    date : this.state.date,
+                    day : this.state.day,
                     // chest
                     BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
                     FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
@@ -333,22 +390,12 @@ export default class Home extends React.Component {
                 What did you workout?
             </div>
                 <Col span={5} offset = {6}>
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "chest")}><b>Chest</b></Checkbox>
-                    {this.showChestDetails()}
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "back")}><b>Back</b></Checkbox>
-                    {this.showBackDetails()}
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "shoulder")}><b>shoulder</b></Checkbox>
-                    {this.showShoulderDetails()}
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "biceps")}><b>biceps</b></Checkbox>
-                    {this.showBicepsDetails()}
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "triceps")}><b>triceps</b></Checkbox>
-                    {this.showTricepsDetails()}
-                    <Checkbox onChange = { (e) => this.muscleOnChange(e, "legs")}><b>Legs</b></Checkbox>
-                    {this.showLegsDetails()}
+                    {this.datePicker()}
+                    {this.workoutPicker()}
                 </Col>
                 <Col span = {2} className = "vl"></Col>
                 <Col span={8}>
-                    selected item goes here
+                    { this.displayDate()}
                     { this.showSelectedItems() }
                     <div>
                         { this.submitButton()}

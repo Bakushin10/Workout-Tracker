@@ -3,6 +3,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var workoutSchema = new Schema({
+    date : String,
+    day : String,
     muscleGroup :[{
         chest : [{
             BarbellBenchPress : Boolean,

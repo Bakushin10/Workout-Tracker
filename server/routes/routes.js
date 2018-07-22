@@ -70,6 +70,8 @@ router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workout = new Workout();
 
+    workout.date = req.body.date;
+    workout.day = req.body.day;
     workout.muscleGroup = {
         chest : [{
             BarbellBenchPress : req.body.BarbellBenchPress,
