@@ -68,7 +68,12 @@ router.get('/getAll',function(req, res) {
 
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
+    var workoutDate = require('../../models/workout-date');
     var workout = new Workout();
+    var workoutDate = new workoutDate();
+
+    workoutDate.date = req.body.date;
+    workoutDate.day = req.body.day;
 
     workout.date = req.body.date;
     workout.day = req.body.day;
@@ -125,7 +130,13 @@ router.route('/updateWorkout').post(function(req,res){
     workout.save(function(err) {
         if (err)
             res.send(err);
-        res.send('Expense successfully added!');
+        else{
+            workoutDate.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.send('Expense successfully added!');
+            });
+        }
     });
 });
 

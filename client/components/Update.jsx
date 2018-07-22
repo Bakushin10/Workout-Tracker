@@ -6,7 +6,6 @@ import axios from 'axios';
 import { Redirect } from 'react-router';
 var querystring = require('querystring');
 
-
 export default class Home extends React.Component {
 
     constructor(){
