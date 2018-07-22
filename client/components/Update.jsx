@@ -3,7 +3,7 @@ import { Row, Col, Button, Checkbox, DatePicker} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+import { Redirect } from 'react-router';
 var querystring = require('querystring');
 
 
@@ -12,13 +12,9 @@ export default class Home extends React.Component {
     constructor(){
         super();
         this.state = {
-            /*
-
-                will need to add a date state
-
-            */
-            date : "", // ex) 7 22 2018
+            date : "", // ex) 7-22-2018
             day : "", // Mon, Tues, Wed...
+            submitted : false,
             selectedItems : [],
             chestDetail : false,
             backDetail : false,
@@ -325,7 +321,6 @@ export default class Home extends React.Component {
     submit(){
         axios.post('/updateWorkout',
         querystring.stringify({
-
                     date : this.state.date,
                     day : this.state.day,
                     // chest
@@ -379,29 +374,34 @@ export default class Home extends React.Component {
           }
         }
       )
+
+      this.setState({submitted : true})
     }
 
     render() {
-      return (
-        <div>
-            <Header>
-            </Header>
-            <div className = "welcomeText">
-                What did you workout?
+        if(this.state.submitted){
+            return (<Redirect to ={`/Result`}/>);
+        }
+        return (
+            <div>
+                <Header>
+                </Header>
+                <div className = "welcomeText">
+                    What did you workout?
+                </div>
+                    <Col span={5} offset = {6}>
+                        {this.datePicker()}
+                        {this.workoutPicker()}
+                    </Col>
+                    <Col span = {2} className = "vl"></Col>
+                    <Col span={8}>
+                        { this.displayDate()}
+                        { this.showSelectedItems() }
+                        <div>
+                            { this.submitButton()}
+                        </div>
+                    </Col>
             </div>
-                <Col span={5} offset = {6}>
-                    {this.datePicker()}
-                    {this.workoutPicker()}
-                </Col>
-                <Col span = {2} className = "vl"></Col>
-                <Col span={8}>
-                    { this.displayDate()}
-                    { this.showSelectedItems() }
-                    <div>
-                        { this.submitButton()}
-                    </div>
-                </Col>
-        </div>
-      );
-    }
+        );
+        }
   }
