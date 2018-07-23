@@ -66,6 +66,16 @@ router.get('/getAll',function(req, res) {
  }
 });
 
+router.get('/getWorkout-date',function(req, res) {
+    const workoutDate = require('../../models/workout-date');
+
+    workoutDate.find({},function(err,response){
+        if(err)
+            res.send(err);
+        res.json(response);
+    })
+});
+
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workoutDate = require('../../models/workout-date');

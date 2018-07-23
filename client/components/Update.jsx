@@ -319,54 +319,54 @@ export default class Home extends React.Component {
 
     submit(){
         axios.post('/updateWorkout',
-        querystring.stringify({
-                    date : this.state.date,
-                    day : this.state.day,
-                    // chest
-                    BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
-                    FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
-                    InclineDumbbellPress : this.state.muscleGroup.chest.InclineDumbbellPress,
-                    LowInclineBarbellBenchPress : this.state.muscleGroup.chest.LowInclineBarbellBenchPress,
-                    SeatedMachineChestPress : this.state.muscleGroup.chest.SeatedMachineChestPress,
-                    Dips : this.state.muscleGroup.chest.Dips,
-                    InclineBenchCableFly : this.state.muscleGroup.chest.InclineBenchCableFly,
-                    pushUps : this.state.muscleGroup.chest.pushUps,
+            querystring.stringify({
+                        date : this.state.date,
+                        day : this.state.day,
+                        // chest
+                        BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
+                        FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
+                        InclineDumbbellPress : this.state.muscleGroup.chest.InclineDumbbellPress,
+                        LowInclineBarbellBenchPress : this.state.muscleGroup.chest.LowInclineBarbellBenchPress,
+                        SeatedMachineChestPress : this.state.muscleGroup.chest.SeatedMachineChestPress,
+                        Dips : this.state.muscleGroup.chest.Dips,
+                        InclineBenchCableFly : this.state.muscleGroup.chest.InclineBenchCableFly,
+                        pushUps : this.state.muscleGroup.chest.pushUps,
 
-                    // back
-                    Deadlist : this.state.muscleGroup.back.Deadlist,
-                    Pullups : this.state.muscleGroup.back.Pullups,
-                    ChinUps : this.state.muscleGroup.back.ChinUps,
-                    WideGripRearPullUp : this.state.muscleGroup.back.WideGripRearPullUp,
-                    OneArmDumbellRow : this.state.muscleGroup.back.OneArmDumbellRow,
-                    V_barPulldown : this.state.muscleGroup.back.V_barPulldown,
-                    WideBarPulldown : this.state.muscleGroup.back.WideBarPulldown,
+                        // back
+                        Deadlist : this.state.muscleGroup.back.Deadlist,
+                        Pullups : this.state.muscleGroup.back.Pullups,
+                        ChinUps : this.state.muscleGroup.back.ChinUps,
+                        WideGripRearPullUp : this.state.muscleGroup.back.WideGripRearPullUp,
+                        OneArmDumbellRow : this.state.muscleGroup.back.OneArmDumbellRow,
+                        V_barPulldown : this.state.muscleGroup.back.V_barPulldown,
+                        WideBarPulldown : this.state.muscleGroup.back.WideBarPulldown,
 
-                    // shoulder
-                    StandingDumbellPress : this.state.muscleGroup.shoulder.StandingDumbellPress,
-                    StandingMilitaryPress : this.state.muscleGroup.shoulder.StandingMilitaryPress,
-                    SeatedBarbellMilitaryPress : this.state.muscleGroup.shoulder.SeatedBarbellMilitaryPress,
-                    OneArmSideLaterals : this.state.muscleGroup.shoulder.OneArmSideLaterals,
-                    PowerPartials : this.state.muscleGroup.shoulder.PowerPartials,
+                        // shoulder
+                        StandingDumbellPress : this.state.muscleGroup.shoulder.StandingDumbellPress,
+                        StandingMilitaryPress : this.state.muscleGroup.shoulder.StandingMilitaryPress,
+                        SeatedBarbellMilitaryPress : this.state.muscleGroup.shoulder.SeatedBarbellMilitaryPress,
+                        OneArmSideLaterals : this.state.muscleGroup.shoulder.OneArmSideLaterals,
+                        PowerPartials : this.state.muscleGroup.shoulder.PowerPartials,
 
-                    // biceps
-                    EZBarCurl : this.state.muscleGroup.biceps.EZBarCurl,
-                    CloseGripEZBarCurl : this.state.muscleGroup.biceps.CloseGripEZBarCurl,
-                    ConcentrationCurls : this.state.muscleGroup.biceps.ConcentrationCurls,
-                    HammerCurls : this.state.muscleGroup.biceps.HammerCurls,
-                    InclineDumbbellCurls : this.state.muscleGroup.biceps.InclineDumbbellCurls,
-                    CableCurl : this.state.muscleGroup.biceps.CableCurl,
-                    
-                    // triceps
-                    TricepsPushdown : this.state.muscleGroup.triceps.TricepsPushdown,
-                    BenchDip : this.state.muscleGroup.triceps.BenchDip,
-                    EZBarTriceps : this.state.muscleGroup.triceps.EZBarTriceps,
-                    SeatedTricepsPress : this.state.muscleGroup.triceps.SeatedTricepsPress,
-                    CloseGripBarbellBenchPress : this.state.muscleGroup.triceps.CloseGripBarbellBenchPress,
+                        // biceps
+                        EZBarCurl : this.state.muscleGroup.biceps.EZBarCurl,
+                        CloseGripEZBarCurl : this.state.muscleGroup.biceps.CloseGripEZBarCurl,
+                        ConcentrationCurls : this.state.muscleGroup.biceps.ConcentrationCurls,
+                        HammerCurls : this.state.muscleGroup.biceps.HammerCurls,
+                        InclineDumbbellCurls : this.state.muscleGroup.biceps.InclineDumbbellCurls,
+                        CableCurl : this.state.muscleGroup.biceps.CableCurl,
+                        
+                        // triceps
+                        TricepsPushdown : this.state.muscleGroup.triceps.TricepsPushdown,
+                        BenchDip : this.state.muscleGroup.triceps.BenchDip,
+                        EZBarTriceps : this.state.muscleGroup.triceps.EZBarTriceps,
+                        SeatedTricepsPress : this.state.muscleGroup.triceps.SeatedTricepsPress,
+                        CloseGripBarbellBenchPress : this.state.muscleGroup.triceps.CloseGripBarbellBenchPress,
 
-                    // legs
-                    LegPress : this.state.muscleGroup.legs.LegPress,
-                    Squat : this.state.muscleGroup.legs.Squat
-                }),
+                        // legs
+                        LegPress : this.state.muscleGroup.legs.LegPress,
+                        Squat : this.state.muscleGroup.legs.Squat
+                    }),
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
