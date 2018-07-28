@@ -86,6 +86,7 @@ export default class Home extends React.Component {
         this.datePicker = this.datePicker.bind(this);
         this.displayDate = this.displayDate.bind(this);
         this.workoutPicker = this.workoutPicker.bind(this);
+        this.getMuscleUsed = this.getMuscleUsed.bind(this);
     }
 
     showChestDetails(){
@@ -204,7 +205,6 @@ export default class Home extends React.Component {
         }
     }
 
-
     muscleOnChange(e, muscle) {
         var muscleDetail = muscle + "Detail";
         if(this.state[muscleDetail]){
@@ -317,11 +317,28 @@ export default class Home extends React.Component {
         }
     }
 
+    getMuscleUsed(){
+        const mp = ['chest', 'back', 'shoulder', 
+                    'biceps', 'triceps', 'legs']
+        
+        var muscleUsed = mp.map( item =>{
+            var detail = item + "Detail"
+            if(this.state[detail]){
+                return this.state[detail]
+            }
+        })
+
+        return muscleUsed
+    }
+
     submit(){
+
+        var muscleUsed = this.getMuscleUsed()
         axios.post('/updateWorkout',
             querystring.stringify({
                         date : this.state.date,
                         day : this.state.day,
+                        muscleUsed : muscleUsed,
                         // chest
                         BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
                         FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,

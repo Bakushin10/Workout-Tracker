@@ -76,6 +76,17 @@ router.get('/getWorkout-date',function(req, res) {
     })
 });
 
+router.get('/getWorkout-detail',function(req, res) {
+    const workout = require('../../models/workout');
+    const date = req.query.date;
+    
+    workout.find({date : date},function(err,response){
+        if(err)
+            res.send(err);
+        res.json(response);
+    })
+});
+
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workoutDate = require('../../models/workout-date');
@@ -87,6 +98,7 @@ router.route('/updateWorkout').post(function(req,res){
 
     workout.date = req.body.date;
     workout.day = req.body.day;
+    workout.muscleUsed = req.body.muscleUsed;
     workout.muscleGroup = {
         chest : [{
             BarbellBenchPress : req.body.BarbellBenchPress,
