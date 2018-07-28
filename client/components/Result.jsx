@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Card } from 'antd';
+import Spinner from './utility/Spinner';
 
 export default class Home extends React.Component {
 
@@ -10,6 +12,7 @@ export default class Home extends React.Component {
         }
 
         this.ShowEachDate = this.ShowEachDate.bind(this);
+        this.CardOnClick = this.CardOnClick.bind(this);
     }
 
     componentDidMount() {
@@ -20,19 +23,28 @@ export default class Home extends React.Component {
         })
     }
 
+    CardOnClick(e){
+        console.log(e)
+    }
+
     ShowEachDate(){
         if(this.state.dates === []){
-            /*
-                add spinner here
-            */
-            console.log("spinner")
+            return <Spinner/>
         }else{
-            let datesArr = []
-            for(var i = 0; i < this.state.dates.length; i++){
-                console.log(this.state.dates[i])
-                datesArr.push(<div>{this.state.dates[i].date}</div>)
-            }
-            return datesArr
+            var dateArr = this.state.dates.map( item => {
+                //console.log(item)
+                return(
+                    <Card
+                        onClick={() => this.CardOnClick(item.date)}
+                        value = {item.date}
+                        style={{ width: 150, height: 70 }}
+                    >
+                        {item.date}
+                    </Card>
+                )
+            })
+            
+            return dateArr
         }
     }
 
