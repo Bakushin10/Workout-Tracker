@@ -8,13 +8,15 @@ export default class Home extends React.Component {
     constructor(){
         super();
         this.state = {
-            dates : [] //store all dates
+            dates : [], //store all dates
+            workOutDetails : []
         }
 
         this.ShowEachDate = this.ShowEachDate.bind(this);
         this.CardOnClick = this.CardOnClick.bind(this);
         this.PopOver = this.PopOver.bind(this);
         this.containFalse = this.containFalse.bind(this);
+        this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
     }
 
     componentDidMount() {
@@ -41,6 +43,8 @@ export default class Home extends React.Component {
     }
 
     CardOnClick(date){
+        let self = this;
+
         axios.get('/getWorkout-detail', {
             params:{
                 date : date 
@@ -66,12 +70,41 @@ export default class Home extends React.Component {
                     }
                 }
             }
-            console.log(detailToShow)
+
+            self.setState({workOutDetails : detailToShow})
         })
     }
 
+    ShowWorkoutDetails(){
+        console.log(this.state.workOutDetails)
+        
+        var workoutDetailArr = [];
+        //create the global file for this
+        const mp = ['chest', 'back', 'shoulder', 'biceps', 'triceps', 'legs']
+
+        workoutDetailArr = this.state.workOutDetails.map( item =>{
+            if(mp.includes(item)){
+                return(
+                    <div><b>{ item }</b></div>
+                )
+            }else{
+                return(
+                    <div>{ item }</div>
+                )
+            }
+        })
+
+        if(workoutDetailArr.length === 0){
+            return(
+                <div> Click on an item for detail!</div>
+            )
+        }
+
+        return workoutDetailArr;
+    }
+
     ShowEachDate(){
-        if(this.state.dates === []){
+        if(this.state.dates.length === 0){
             return <Spinner/>
         }else{
             var dateArr = this.state.dates.map( item => {
@@ -91,12 +124,14 @@ export default class Home extends React.Component {
     }
 
     render() {
-        console.log(this.state.dates)
         return (
             <div>
                 <div>Result Page</div>
                 <div>
                     {this.ShowEachDate()}
+                </div>
+                <div>
+                    {this.ShowWorkoutDetails()}
                 </div>
             </div>
         )
