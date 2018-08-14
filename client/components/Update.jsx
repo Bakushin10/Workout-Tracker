@@ -400,8 +400,7 @@ export default class Home extends React.Component {
         }
         return (
             <div>
-                <Header>
-                </Header>
+                <Header/>
                 <div className = "welcomeText">
                     What did you workout?
                 </div>

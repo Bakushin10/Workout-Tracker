@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Popover } from 'antd';
+import { Card, Col, Row } from 'antd';
 import Spinner from './utility/Spinner';
+import Header from './utility/header';
 
 export default class Home extends React.Component {
 
@@ -11,10 +12,9 @@ export default class Home extends React.Component {
             dates : [], //store all dates
             workOutDetails : []
         }
-
+        
         this.ShowEachDate = this.ShowEachDate.bind(this);
         this.CardOnClick = this.CardOnClick.bind(this);
-        this.PopOver = this.PopOver.bind(this);
         this.containFalse = this.containFalse.bind(this);
         this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
     }
@@ -36,10 +36,6 @@ export default class Home extends React.Component {
             }
         }
         return false;
-    }
-
-    PopOver(date){
-
     }
 
     CardOnClick(date){
@@ -121,17 +117,23 @@ export default class Home extends React.Component {
             })
             return dateArr
         }
-    }
+    }       
 
     render() {
         return (
             <div>
-                <div>Result Page</div>
+                <Header/>
+                <br/>
                 <div>
-                    {this.ShowEachDate()}
-                </div>
-                <div>
-                    {this.ShowWorkoutDetails()}
+                    <Row>
+                        <Col span={5} offset = {6}>
+                            {this.ShowEachDate()}
+                        </Col>
+                        <Col span = {2} className = "vl"></Col>
+                        <Col span={8}>
+                            {this.ShowWorkoutDetails()}
+                        </Col>
+                    </Row>
                 </div>
             </div>
         )
