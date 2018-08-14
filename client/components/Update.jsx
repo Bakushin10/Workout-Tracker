@@ -3,19 +3,17 @@ import { Row, Col, Button, Checkbox, DatePicker} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { Redirect } from 'react-router';
 var querystring = require('querystring');
-
 
 export default class Home extends React.Component {
 
     constructor(){
         super();
         this.state = {
-            /*
-
-                will need to add a date state
-
-            */
+            date : "", // ex) 7-22-2018
+            day : "", // Mon, Tues, Wed...
+            submitted : false,
             selectedItems : [],
             chestDetail : false,
             backDetail : false,
@@ -85,6 +83,10 @@ export default class Home extends React.Component {
         this.submitButton =  this.submitButton.bind(this);
         this.updatePickerOnChange = this.updatePickerOnChange.bind(this);
         this.submit = this.submit.bind(this);
+        this.datePicker = this.datePicker.bind(this);
+        this.displayDate = this.displayDate.bind(this);
+        this.workoutPicker = this.workoutPicker.bind(this);
+        this.getMuscleUsed = this.getMuscleUsed.bind(this);
     }
 
     showChestDetails(){
@@ -206,7 +208,7 @@ export default class Home extends React.Component {
     muscleOnChange(e, muscle) {
         var muscleDetail = muscle + "Detail";
         if(this.state[muscleDetail]){
-            this.setState({ [muscleDetail] : false})
+            this.state[muscleDetail] = false;
             for(var item in this.state.muscleGroup[muscle]){
                 this.state.muscleGroup[muscle][item] = false;
             }
@@ -254,75 +256,50 @@ export default class Home extends React.Component {
     }
 
     updatePickerOnChange(e) {
-        this.setState({date: e.target.value})
-        console.log(this.state.date)
+        var date = e._d.toString().split(" ");
+        //console.log(date)
+        const day = date[0];
+        const datePicked = date[1] + "-" + date[2] + "-" + date[3];
+
+        this.setState({date: datePicked})
+        this.setState({day : day})
     }
 
-    submit(){
-        axios.post('/updateWorkout',
-        querystring.stringify({
-                    // chest
-                    BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
-                    FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
-                    InclineDumbbellPress : this.state.muscleGroup.chest.InclineDumbbellPress,
-                    LowInclineBarbellBenchPress : this.state.muscleGroup.chest.LowInclineBarbellBenchPress,
-                    SeatedMachineChestPress : this.state.muscleGroup.chest.SeatedMachineChestPress,
-                    Dips : this.state.muscleGroup.chest.Dips,
-                    InclineBenchCableFly : this.state.muscleGroup.chest.InclineBenchCableFly,
-                    pushUps : this.state.muscleGroup.chest.pushUps,
-
-                    // back
-                    Deadlist : this.state.muscleGroup.back.Deadlist,
-                    Pullups : this.state.muscleGroup.back.Pullups,
-                    ChinUps : this.state.muscleGroup.back.ChinUps,
-                    WideGripRearPullUp : this.state.muscleGroup.back.WideGripRearPullUp,
-                    OneArmDumbellRow : this.state.muscleGroup.back.OneArmDumbellRow,
-                    V_barPulldown : this.state.muscleGroup.back.V_barPulldown,
-                    WideBarPulldown : this.state.muscleGroup.back.WideBarPulldown,
-
-                    // shoulder
-                    StandingDumbellPress : this.state.muscleGroup.shoulder.StandingDumbellPress,
-                    StandingMilitaryPress : this.state.muscleGroup.shoulder.StandingMilitaryPress,
-                    SeatedBarbellMilitaryPress : this.state.muscleGroup.shoulder.SeatedBarbellMilitaryPress,
-                    OneArmSideLaterals : this.state.muscleGroup.shoulder.OneArmSideLaterals,
-                    PowerPartials : this.state.muscleGroup.shoulder.PowerPartials,
-
-                    // biceps
-                    EZBarCurl : this.state.muscleGroup.biceps.EZBarCurl,
-                    CloseGripEZBarCurl : this.state.muscleGroup.biceps.CloseGripEZBarCurl,
-                    ConcentrationCurls : this.state.muscleGroup.biceps.ConcentrationCurls,
-                    HammerCurls : this.state.muscleGroup.biceps.HammerCurls,
-                    InclineDumbbellCurls : this.state.muscleGroup.biceps.InclineDumbbellCurls,
-                    CableCurl : this.state.muscleGroup.biceps.CableCurl,
-                    
-                    // triceps
-                    TricepsPushdown : this.state.muscleGroup.triceps.TricepsPushdown,
-                    BenchDip : this.state.muscleGroup.triceps.BenchDip,
-                    EZBarTriceps : this.state.muscleGroup.triceps.EZBarTriceps,
-                    SeatedTricepsPress : this.state.muscleGroup.triceps.SeatedTricepsPress,
-                    CloseGripBarbellBenchPress : this.state.muscleGroup.triceps.CloseGripBarbellBenchPress,
-
-                    // legs
-                    LegPress : this.state.muscleGroup.legs.LegPress,
-                    Squat : this.state.muscleGroup.legs.Squat
-                }),
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
-      )
-    }
-
-    render() {
-      return (
-        <div>
-            <Header>
-            </Header>
-            <div className = "welcomeText">
-                What did you workout?
+    datePicker(){
+        return(
+            <div className = "button-center">
+                <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
             </div>
-                <Col span={5} offset = {6}>
+        )
+    }
+
+    displayDate(){
+        if(this.state.date === ""){
+            return(
+                <div className = "wordColor">Pick a Date First</div>
+            )
+        }else{
+            return(
+                <div>{ this.state.day + " " + this.state.date }</div>
+            )
+        }
+    }
+
+    workoutPicker(){
+        if(this.state.date === ""){
+            return(
+                <div>
+                    <Checkbox disabled><b>Chest</b></Checkbox>
+                    <Checkbox disabled><b>Back</b></Checkbox>
+                    <Checkbox disabled><b>shoulder</b></Checkbox>
+                    <Checkbox disabled><b>biceps</b></Checkbox>
+                    <Checkbox disabled><b>triceps</b></Checkbox>
+                    <Checkbox disabled><b>Legs</b></Checkbox>
+                </div>
+            )
+        }else{
+            return(
+                <div>
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "chest")}><b>Chest</b></Checkbox>
                     {this.showChestDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "back")}><b>Back</b></Checkbox>
@@ -335,16 +312,111 @@ export default class Home extends React.Component {
                     {this.showTricepsDetails()}
                     <Checkbox onChange = { (e) => this.muscleOnChange(e, "legs")}><b>Legs</b></Checkbox>
                     {this.showLegsDetails()}
-                </Col>
-                <Col span = {2} className = "vl"></Col>
-                <Col span={8}>
-                    selected item goes here
-                    { this.showSelectedItems() }
-                    <div>
-                        { this.submitButton()}
-                    </div>
-                </Col>
-        </div>
-      );
+                </div>
+            )
+        }
+    }
+
+    getMuscleUsed(){
+        const mp = ['chest', 'back', 'shoulder', 
+                    'biceps', 'triceps', 'legs']
+        
+        var muscleUsed = mp.map( item =>{
+            var detail = item + "Detail"
+            if(this.state[detail]){
+                return this.state[detail]
+            }
+        })
+
+        return muscleUsed
+    }
+
+    submit(){
+
+        var muscleUsed = this.getMuscleUsed()
+        axios.post('/updateWorkout',
+            querystring.stringify({
+                        date : this.state.date,
+                        day : this.state.day,
+                        muscleUsed : muscleUsed,
+                        // chest
+                        BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
+                        FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
+                        InclineDumbbellPress : this.state.muscleGroup.chest.InclineDumbbellPress,
+                        LowInclineBarbellBenchPress : this.state.muscleGroup.chest.LowInclineBarbellBenchPress,
+                        SeatedMachineChestPress : this.state.muscleGroup.chest.SeatedMachineChestPress,
+                        Dips : this.state.muscleGroup.chest.Dips,
+                        InclineBenchCableFly : this.state.muscleGroup.chest.InclineBenchCableFly,
+                        pushUps : this.state.muscleGroup.chest.pushUps,
+
+                        // back
+                        Deadlist : this.state.muscleGroup.back.Deadlist,
+                        Pullups : this.state.muscleGroup.back.Pullups,
+                        ChinUps : this.state.muscleGroup.back.ChinUps,
+                        WideGripRearPullUp : this.state.muscleGroup.back.WideGripRearPullUp,
+                        OneArmDumbellRow : this.state.muscleGroup.back.OneArmDumbellRow,
+                        V_barPulldown : this.state.muscleGroup.back.V_barPulldown,
+                        WideBarPulldown : this.state.muscleGroup.back.WideBarPulldown,
+
+                        // shoulder
+                        StandingDumbellPress : this.state.muscleGroup.shoulder.StandingDumbellPress,
+                        StandingMilitaryPress : this.state.muscleGroup.shoulder.StandingMilitaryPress,
+                        SeatedBarbellMilitaryPress : this.state.muscleGroup.shoulder.SeatedBarbellMilitaryPress,
+                        OneArmSideLaterals : this.state.muscleGroup.shoulder.OneArmSideLaterals,
+                        PowerPartials : this.state.muscleGroup.shoulder.PowerPartials,
+
+                        // biceps
+                        EZBarCurl : this.state.muscleGroup.biceps.EZBarCurl,
+                        CloseGripEZBarCurl : this.state.muscleGroup.biceps.CloseGripEZBarCurl,
+                        ConcentrationCurls : this.state.muscleGroup.biceps.ConcentrationCurls,
+                        HammerCurls : this.state.muscleGroup.biceps.HammerCurls,
+                        InclineDumbbellCurls : this.state.muscleGroup.biceps.InclineDumbbellCurls,
+                        CableCurl : this.state.muscleGroup.biceps.CableCurl,
+                        
+                        // triceps
+                        TricepsPushdown : this.state.muscleGroup.triceps.TricepsPushdown,
+                        BenchDip : this.state.muscleGroup.triceps.BenchDip,
+                        EZBarTriceps : this.state.muscleGroup.triceps.EZBarTriceps,
+                        SeatedTricepsPress : this.state.muscleGroup.triceps.SeatedTricepsPress,
+                        CloseGripBarbellBenchPress : this.state.muscleGroup.triceps.CloseGripBarbellBenchPress,
+
+                        // legs
+                        LegPress : this.state.muscleGroup.legs.LegPress,
+                        Squat : this.state.muscleGroup.legs.Squat
+                    }),
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }
+        }
+      )
+
+      this.setState({submitted : true})
+    }
+
+    render() {
+        if(this.state.submitted){
+            return (<Redirect to ={`/Result`}/>);
+        }
+        return (
+            <div>
+                <Header/>
+                <div className = "welcomeText">
+                    What did you workout?
+                </div>
+                    <Col span={5} offset = {6}>
+                        {this.datePicker()}
+                        {this.workoutPicker()}
+                    </Col>
+                    <Col span = {2} className = "vl"></Col>
+                    <Col span={8}>
+                        { this.displayDate()}
+                        { this.showSelectedItems() }
+                        <div>
+                            { this.submitButton()}
+                        </div>
+                    </Col>
+            </div>
+        );
     }
   }

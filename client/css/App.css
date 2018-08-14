@@ -62,4 +62,9 @@ margin:0px auto;
 .vl {
   border-left: 3px solid rgba(97, 93, 93, 0.85);
   height: 500px;
+  text-align: center;
+}
+
+.wordColor {
+  color : #42f4eb
 }

@@ -66,10 +66,39 @@ router.get('/getAll',function(req, res) {
  }
 });
 
+router.get('/getWorkout-date',function(req, res) {
+    const workoutDate = require('../../models/workout-date');
+
+    workoutDate.find({},function(err,response){
+        if(err)
+            res.send(err);
+        res.json(response);
+    })
+});
+
+router.get('/getWorkout-detail',function(req, res) {
+    const workout = require('../../models/workout');
+    const date = req.query.date;
+    
+    workout.find({date : date},function(err,response){
+        if(err)
+            res.send(err);
+        res.json(response);
+    })
+});
+
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
+    var workoutDate = require('../../models/workout-date');
     var workout = new Workout();
+    var workoutDate = new workoutDate();
 
+    workoutDate.date = req.body.date;
+    workoutDate.day = req.body.day;
+
+    workout.date = req.body.date;
+    workout.day = req.body.day;
+    workout.muscleUsed = req.body.muscleUsed;
     workout.muscleGroup = {
         chest : [{
             BarbellBenchPress : req.body.BarbellBenchPress,
@@ -123,7 +152,13 @@ router.route('/updateWorkout').post(function(req,res){
     workout.save(function(err) {
         if (err)
             res.send(err);
-        res.send('Expense successfully added!');
+        else{
+            workoutDate.save(function(err) {
+                if (err)
+                    res.send(err);
+                res.send('Expense successfully added!');
+            });
+        }
     });
 });
 

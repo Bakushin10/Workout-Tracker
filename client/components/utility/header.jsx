@@ -31,6 +31,11 @@ export default class Head extends React.Component {
                 Update your Track
               </a>
             </Menu.Item>
+            <Menu.Item key="4">
+              <a href="/#/Result" className="items">
+                Results
+              </a>
+            </Menu.Item>
           </Menu>
           </Header>
         {/* </div> 
