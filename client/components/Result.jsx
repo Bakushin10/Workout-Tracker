@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, Col, Row } from 'antd';
 import Spinner from './utility/Spinner';
 import Header from './utility/header';
+import { MUSCLEPARTS } from './utility/CommonJS';
 
 export default class Home extends React.Component {
 
@@ -15,27 +16,14 @@ export default class Home extends React.Component {
         
         this.ShowEachDate = this.ShowEachDate.bind(this);
         this.CardOnClick = this.CardOnClick.bind(this);
-        this.containFalse = this.containFalse.bind(this);
         this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
     }
 
     componentDidMount() {
         let self = this;
-
         axios.get('/getWorkout-date').then(function(response) {
             self.setState({dates : response.data})
         })
-    }
-
-    containFalse(mustlePart){
-        for(var item in mustlePart){
-            console.log(item)
-            console.log(mustlePart[item])
-            if(mustlePartp[item] === false){
-                return true
-            }
-        }
-        return false;
     }
 
     CardOnClick(date){
@@ -46,40 +34,31 @@ export default class Home extends React.Component {
                 date : date 
               }
         }).then(function(response) {
-            
-            //create the global file for this
-            const mp = ['chest', 'back', 'shoulder', 'biceps', 'triceps', 'legs']
-            const len = 6
 
-            var detailToShow = []
-            for(var i = 0; i < len ; i++){
-                if(response.data[0].muscleUsed[i] === "true"){
-                    
-                    const musclepart = mp[i]
+            let detailToShow = []
+            response.data[0].muscleUsed.map((mustle, index) => { 
+                if(mustle){
+                    const musclepart = MUSCLEPARTS[index]
                     const muscle = response.data[0].muscleGroup[0]
                     detailToShow.push(musclepart) //insert Muscle part like chest, back, shoulder...
                    
-                    for(var j in muscle[musclepart][0]){
+                    for(let j in muscle[musclepart][0]){
                         if(muscle[musclepart][0][j] === true){
                             detailToShow.push(j) //insert details mustle
                         }
                     }
                 }
-            }
-
+            })
+            
             self.setState({workOutDetails : detailToShow})
         })
     }
 
     ShowWorkoutDetails(){
-        console.log(this.state.workOutDetails)
-        
-        var workoutDetailArr = [];
-        //create the global file for this
-        const mp = ['chest', 'back', 'shoulder', 'biceps', 'triceps', 'legs']
-
+        //console.log(this.state.workOutDetails)
+        let workoutDetailArr = [];
         workoutDetailArr = this.state.workOutDetails.map( item =>{
-            if(mp.includes(item)){
+            if(MUSCLEPARTS.includes(item)){
                 return(
                     <div><b>{ item }</b></div>
                 )
@@ -103,8 +82,7 @@ export default class Home extends React.Component {
         if(this.state.dates.length === 0){
             return <Spinner/>
         }else{
-            var dateArr = this.state.dates.map( item => {
-                //console.log(item)
+            let dateArr = this.state.dates.map( item => {
                 return(
                     <Card
                         onClick={() => this.CardOnClick(item.date)}

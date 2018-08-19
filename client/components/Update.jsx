@@ -4,7 +4,8 @@ import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router';
-var querystring = require('querystring');
+import { MUSCLEPARTS } from './utility/CommonJS';
+let querystring = require('querystring');
 
 export default class Home extends React.Component {
 
@@ -206,10 +207,10 @@ export default class Home extends React.Component {
     }
 
     muscleOnChange(e, muscle) {
-        var muscleDetail = muscle + "Detail";
+        let muscleDetail = muscle + "Detail";
         if(this.state[muscleDetail]){
             this.state[muscleDetail] = false;
-            for(var item in this.state.muscleGroup[muscle]){
+            for(let item in this.state.muscleGroup[muscle]){
                 this.state.muscleGroup[muscle][item] = false;
             }
         }else{
@@ -226,13 +227,13 @@ export default class Home extends React.Component {
     }
     
     updateSelectedItem(){
-        var updatedSelectedItem = [];
+        let updatedSelectedItem = [];
         
-        for(var muscle in this.state.muscleGroup){
-            var muscleDetail = muscle + "Detail";
+        for(let muscle in this.state.muscleGroup){
+            let muscleDetail = muscle + "Detail";
             if(this.state[muscleDetail]){
                 updatedSelectedItem.push(<div><b>{muscle}</b></div>)
-                for(var item in this.state.muscleGroup[muscle]){
+                for(let item in this.state.muscleGroup[muscle]){
                     if(this.state.muscleGroup[muscle][item]){
                         updatedSelectedItem.push(<div>{item}</div>)
                     }
@@ -256,8 +257,7 @@ export default class Home extends React.Component {
     }
 
     updatePickerOnChange(e) {
-        var date = e._d.toString().split(" ");
-        //console.log(date)
+        let date = e._d.toString().split(" ");
         const day = date[0];
         const datePicked = date[1] + "-" + date[2] + "-" + date[3];
 
@@ -318,11 +318,8 @@ export default class Home extends React.Component {
     }
 
     getMuscleUsed(){
-        const mp = ['chest', 'back', 'shoulder', 
-                    'biceps', 'triceps', 'legs']
-        
-        var muscleUsed = mp.map( item =>{
-            var detail = item + "Detail"
+        let muscleUsed = MUSCLEPARTS.map( item =>{
+            let detail = item + "Detail"
             if(this.state[detail]){
                 return this.state[detail]
             }
@@ -332,8 +329,7 @@ export default class Home extends React.Component {
     }
 
     submit(){
-
-        var muscleUsed = this.getMuscleUsed()
+        let muscleUsed = this.getMuscleUsed()
         axios.post('/updateWorkout',
             querystring.stringify({
                         date : this.state.date,
