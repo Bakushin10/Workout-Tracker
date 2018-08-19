@@ -49,15 +49,13 @@ export default class Home extends React.Component {
                     }
                 }
             })
-            
             self.setState({workOutDetails : detailToShow})
         })
     }
 
     ShowWorkoutDetails(){
         //console.log(this.state.workOutDetails)
-        let workoutDetailArr = [];
-        workoutDetailArr = this.state.workOutDetails.map( item =>{
+        let workoutDetailArr = this.state.workOutDetails.map( item =>{
             if(MUSCLEPARTS.includes(item)){
                 return(
                     <div><b>{ item }</b></div>
