@@ -95,6 +95,7 @@ router.route('/updateWorkout').post(function(req,res){
 
     workoutDate.date = req.body.date;
     workoutDate.day = req.body.day;
+    workout.workoutDay = req.body.workoutDay;
 
     workout.date = req.body.date;
     workout.day = req.body.day;

@@ -11,12 +11,14 @@ export default class Home extends React.Component {
         super();
         this.state = {
             dates : [], //store all dates
+            worktoutDay : "",
             workOutDetails : []
         }
         
         this.ShowEachDate = this.ShowEachDate.bind(this);
         this.CardOnClick = this.CardOnClick.bind(this);
         this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
+        this.ShowWorkOutDay = this.ShowWorkOutDay.bind(this);
     }
 
     componentDidMount() {
@@ -35,6 +37,7 @@ export default class Home extends React.Component {
               }
         }).then(function(response) {
 
+            console.log(response)
             let detailToShow = []
             response.data[0].muscleUsed.map((mustle, index) => { 
                 if(mustle){
@@ -49,12 +52,18 @@ export default class Home extends React.Component {
                     }
                 }
             })
+            self.setState({worktoutDay : response.data[0].workoutDay})
             self.setState({workOutDetails : detailToShow})
         })
     }
 
     ShowWorkoutDetails(){
-        //console.log(this.state.workOutDetails)
+        if(this.state.workOutDetails.length === 0){
+            return(
+                <div> Click on an item for detail!</div>
+            )
+        }
+
         let workoutDetailArr = this.state.workOutDetails.map( item =>{
             if(MUSCLEPARTS.includes(item)){
                 return(
@@ -66,12 +75,6 @@ export default class Home extends React.Component {
                 )
             }
         })
-
-        if(workoutDetailArr.length === 0){
-            return(
-                <div> Click on an item for detail!</div>
-            )
-        }
 
         return workoutDetailArr;
     }
@@ -93,7 +96,16 @@ export default class Home extends React.Component {
             })
             return dateArr
         }
-    }       
+    }
+
+    ShowWorkOutDay(){
+        return(
+            <div>
+                <b>{ this.state.worktoutDay + " Day"}</b>
+                <br/>
+            </div>
+        )
+    }
 
     render() {
         return (
@@ -107,7 +119,8 @@ export default class Home extends React.Component {
                         </Col>
                         <Col span = {2} className = "vl"></Col>
                         <Col span={8}>
-                            {this.ShowWorkoutDetails()}
+                            { this.ShowWorkOutDay() }
+                            { this.ShowWorkoutDetails() }
                         </Col>
                     </Row>
                 </div>

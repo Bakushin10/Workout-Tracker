@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Checkbox, DatePicker} from 'antd';
+import { Row, Col, Button, Checkbox, DatePicker, Dropdown, Menu} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
@@ -14,6 +14,7 @@ export default class Home extends React.Component {
         this.state = {
             date : "", // ex) 7-22-2018
             day : "", // Mon, Tues, Wed...
+            workoutDay : "",
             submitted : false,
             selectedItems : [],
             chestDetail : false,
@@ -88,6 +89,11 @@ export default class Home extends React.Component {
         this.displayDate = this.displayDate.bind(this);
         this.workoutPicker = this.workoutPicker.bind(this);
         this.getMuscleUsed = this.getMuscleUsed.bind(this);
+        this.pickWorkOutDay = this.pickWorkOutDay.bind(this);
+        this.pickWorkOutDayOnClick = this.pickWorkOutDayOnClick.bind(this);
+        this.displayWorkOutDay = this.displayWorkOutDay.bind(this);
+        this.hasWorkoutSelectedItem = this.hasWorkoutSelectedItem.bind(this);
+        this.hasWorkoutDay = this.hasWorkoutDay.bind(this);
     }
 
     showChestDetails(){
@@ -248,8 +254,16 @@ export default class Home extends React.Component {
        return this.state.selectedItems;
     }
 
+    hasWorkoutSelectedItem(){
+        return this.state.selectedItems.length === 0 ? true : false;
+    }
+
+    hasWorkoutDay(){
+        return this.state.workoutDay !== "" ? true : false
+    }
+
     submitButton(){
-        if(this.state.selectedItems.length === 0){
+        if(this.hasWorkoutSelectedItem()){
             return (<Button type="primary" disabled>Submit</Button>)
         }else{
             return (<Button type="primary" onClick = {this.submit}>Submit</Button>)
@@ -266,11 +280,19 @@ export default class Home extends React.Component {
     }
 
     datePicker(){
-        return(
-            <div className = "button-center">
-                <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
-            </div>
-        )
+        if(this.hasWorkoutDay()){
+            return(
+                <div className = "button-center">
+                    <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
+                </div>
+            )
+        }else{
+            return(                    
+                <div className = "button-center">
+                    <DatePicker disabled onChange={(e) => this.updatePickerOnChange(e)} />
+                </div>
+            )   
+        }
     }
 
     displayDate(){
@@ -281,6 +303,18 @@ export default class Home extends React.Component {
         }else{
             return(
                 <div>{ this.state.day + " " + this.state.date }</div>
+            )
+        }
+    }
+
+    displayWorkOutDay(){
+        if(this.state.workoutDay === ""){
+            return(
+                <div className = "wordColor">Pick a Workout day</div>
+            )
+        }else{
+            return(
+                <div>{ this.state.workoutDay + " Day"}</div>
             )
         }
     }
@@ -328,6 +362,42 @@ export default class Home extends React.Component {
         return muscleUsed
     }
 
+    pickWorkOutDayOnClick(e, muscle){
+        const self = this
+        self.setState({workoutDay : muscle})
+        console.log(this.state.workoutDay)
+    }
+
+    pickWorkOutDay(){
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <div type="primary" onClick = { (e) => this.pickWorkOutDayOnClick(e, "Chest")}>Chest</div>
+                </Menu.Item>
+                <Menu.Item>
+                    <div type="primary" onClick = { (e) => this.pickWorkOutDayOnClick(e, "Back")}>Back</div>
+                </Menu.Item>
+                <Menu.Item>
+                    <div type="primary" onClick = { (e) => this.pickWorkOutDayOnClick(e, "Shoulder")}>Shoulder</div>
+                </Menu.Item>
+                <Menu.Item>
+                    <div type="primary" onClick = { (e) => this.pickWorkOutDayOnClick(e, "Arms")}>Arms</div>
+                </Menu.Item>
+                <Menu.Item>
+                    <div type="primary" onClick = { (e) => this.pickWorkOutDayOnClick(e, "Legs")}>Legs</div>
+                </Menu.Item>
+            </Menu>
+            );
+
+        return(
+            <div>
+                <Dropdown overlay={menu} placement="bottomLeft">
+                    <Button>bottomLeft</Button>
+                </Dropdown>
+            </div>
+        )
+    }
+
     submit(){
         let muscleUsed = this.getMuscleUsed()
         axios.post('/updateWorkout',
@@ -335,6 +405,7 @@ export default class Home extends React.Component {
                         date : this.state.date,
                         day : this.state.day,
                         muscleUsed : muscleUsed,
+                        workoutDay : this.state.workoutDay,
                         // chest
                         BarbellBenchPress : this.state.muscleGroup.chest.BarbellBenchPress,
                         FlatBenchDumbbellPress : this.state.muscleGroup.chest.FlatBenchDumbbellPress,
@@ -400,6 +471,10 @@ export default class Home extends React.Component {
                 <div className = "welcomeText">
                     What did you workout?
                 </div>
+                    <Col>
+                    { this.pickWorkOutDay() }
+                    { this.displayWorkOutDay() }
+                    </Col>
                     <Col span={5} offset = {6}>
                         {this.datePicker()}
                         {this.workoutPicker()}
