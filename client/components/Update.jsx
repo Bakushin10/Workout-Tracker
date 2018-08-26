@@ -94,6 +94,7 @@ export default class Home extends React.Component {
         this.displayWorkOutDay = this.displayWorkOutDay.bind(this);
         this.hasWorkoutSelectedItem = this.hasWorkoutSelectedItem.bind(this);
         this.hasWorkoutDay = this.hasWorkoutDay.bind(this);
+        this.hasDate = this.hasDate.bind(this);
     }
 
     showChestDetails(){
@@ -262,6 +263,10 @@ export default class Home extends React.Component {
         return this.state.workoutDay !== "" ? true : false
     }
 
+    hasDate(){
+        return this.state.date === "" ? true : false
+    }
+
     submitButton(){
         if(this.hasWorkoutSelectedItem()){
             return (<Button type="primary" disabled>Submit</Button>)
@@ -295,8 +300,20 @@ export default class Home extends React.Component {
         }
     }
 
+    displayWorkOutDay(){
+        if(this.hasWorkoutDay()){
+            return(
+                <div>{ this.state.workoutDay + " Day"}</div>
+            )
+        }else{
+            return(
+                <div className = "wordColor">Pick a Workout day</div>
+            )
+        }
+    }
+
     displayDate(){
-        if(this.state.date === ""){
+        if(this.hasDate()){
             return(
                 <div className = "wordColor">Pick a Date First</div>
             )
@@ -307,20 +324,8 @@ export default class Home extends React.Component {
         }
     }
 
-    displayWorkOutDay(){
-        if(this.state.workoutDay === ""){
-            return(
-                <div className = "wordColor">Pick a Workout day</div>
-            )
-        }else{
-            return(
-                <div>{ this.state.workoutDay + " Day"}</div>
-            )
-        }
-    }
-
     workoutPicker(){
-        if(this.state.date === ""){
+        if(this.hasDate()){
             return(
                 <div>
                     <Checkbox disabled><b>Chest</b></Checkbox>
