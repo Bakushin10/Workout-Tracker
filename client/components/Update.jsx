@@ -101,6 +101,7 @@ export default class Home extends React.Component {
         if(this.state.chestDetail){
             return(
                 <div>
+                    <Col span={5} offset = {6}>
                     <Checkbox onChange = { (e) => this.updateMuscleItem(e, "chest", "BarbellBenchPress") } >Barbell Bench Press</Checkbox>
                     <br />
                     <Checkbox onChange = { (e) => this.updateMuscleItem(e, "chest", "FlatBenchDumbbellPress") }>Flat Bench Dumbbell Press</Checkbox>
@@ -116,6 +117,7 @@ export default class Home extends React.Component {
                     <Checkbox onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineBenchCableFly") }>Incline Bench Cable Fly  </Checkbox>
                     <br />
                     <Checkbox onChange = { (e) => this.updateMuscleItem(e, "chest","pushUps") }>push ups</Checkbox>
+                    </Col>
                 </div>
             )
         }
@@ -251,10 +253,6 @@ export default class Home extends React.Component {
         this.setState({selectedItems : updatedSelectedItem })
     }
 
-    showSelectedItems(){
-       return this.state.selectedItems;
-    }
-
     hasWorkoutSelectedItem(){
         return this.state.selectedItems.length === 0 ? true : false;
     }
@@ -265,6 +263,14 @@ export default class Home extends React.Component {
 
     hasDate(){
         return this.state.date === "" ? true : false
+    }
+
+    showSelectedItems(){
+        if(this.hasWorkoutSelectedItem()){
+            return(<div className = "wordColor">No Items Selected</div>)
+        }else{
+            return this.state.selectedItems;
+        }
     }
 
     submitButton(){
@@ -307,7 +313,7 @@ export default class Home extends React.Component {
             )
         }else{
             return(
-                <div className = "wordColor">Pick a Workout day</div>
+                <div className = "wordColor">No Workout day Selected</div>
             )
         }
     }
@@ -315,7 +321,7 @@ export default class Home extends React.Component {
     displayDate(){
         if(this.hasDate()){
             return(
-                <div className = "wordColor">Pick a Date First</div>
+                <div className = "wordColor">No workout Date Selected</div>
             )
         }else{
             return(
@@ -327,7 +333,7 @@ export default class Home extends React.Component {
     workoutPicker(){
         if(this.hasDate()){
             return(
-                <div>
+                <div align="left" >
                     <Checkbox disabled><b>Chest</b></Checkbox>
                     <Checkbox disabled><b>Back</b></Checkbox>
                     <Checkbox disabled><b>shoulder</b></Checkbox>
@@ -476,22 +482,39 @@ export default class Home extends React.Component {
                 <div className = "welcomeText">
                     What did you workout?
                 </div>
-                    <Col>
-                    { this.pickWorkOutDay() }
-                    { this.displayWorkOutDay() }
-                    </Col>
-                    <Col span={5} offset = {6}>
-                        {this.datePicker()}
-                        {this.workoutPicker()}
-                    </Col>
-                    <Col span = {2} className = "vl"></Col>
-                    <Col span={8}>
-                        { this.displayDate()}
+                    <Row>
+                        <Col span={5} offset = {6}>
+                            { this.pickWorkOutDay() }
+                        </Col>
+                        <Col span={5}>
+                            { this.displayWorkOutDay() }
+                        </Col>
+                    </Row>
+                    <Row className = "space">
+                        <Col span={5} offset = {5}>
+                            {this.datePicker()}
+                        </Col>
+
+                        <Col span={3} offset = {1}>
+                            { this.displayDate()}
+                        </Col>
+                    </Row>
+                    <Row className = "space">
+                        <Col span={5} offset = {5}>
+                            {this.workoutPicker()}
+                        </Col>
+                        <Col span={2} offset = {1}>
                         { this.showSelectedItems() }
-                        <div>
-                            { this.submitButton()}
-                        </div>
-                    </Col>
+                        </Col>
+                    </Row>
+                    <Row className = "space">
+                        <Col span={8} offset = {6}>
+                            
+                            <div>
+                                { this.submitButton()}
+                            </div>
+                        </Col>
+                    </Row>
             </div>
         );
     }
