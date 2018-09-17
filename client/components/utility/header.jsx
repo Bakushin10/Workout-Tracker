@@ -22,16 +22,11 @@ export default class Head extends React.Component {
                 </a>
             </Menu.Item>
             <Menu.Item key="2">
-              <a href="/#/Tracker">
-                Tracker
-              </a>
-            </Menu.Item>
-            <Menu.Item key="3">
               <a href="/#/Update" className="items">
                 Update your Track
               </a>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item key="3">
               <a href="/#/Result" className="items">
                 Results
               </a>
