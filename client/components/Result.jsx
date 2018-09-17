@@ -4,27 +4,36 @@ import { Card, Col, Row } from 'antd';
 import Spinner from './utility/Spinner';
 import Header from './utility/header';
 import { MUSCLEPARTS } from './utility/CommonJS';
+import ResultDetail from './ResultDetail';
 
-export default class Home extends React.Component {
+var Post = (props) => {
+    return <div onClick={()=>props.changeComponent('detail')}> POST </div>
+}
+
+export default class Result extends React.Component {
 
     constructor(){
         super();
         this.state = {
-            dates : [], //store all dates
+            workOutData : [], //store all 
+            OneMonthWorkoutData : [],
             worktoutDay : "",
-            workOutDetails : []
+            workOutDetails : [],
+            jumpToResultDetail : false
         }
         
         this.ShowEachDate = this.ShowEachDate.bind(this);
         this.CardOnClick = this.CardOnClick.bind(this);
         this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
         this.ShowWorkOutDay = this.ShowWorkOutDay.bind(this);
+        this.changeComponent = this.changeComponent.bind(this);
     }
 
     componentDidMount() {
         let self = this;
-        axios.get('/getWorkout-date').then(function(response) {
-            self.setState({dates : response.data})
+        axios.get('/getWorkout').then(function(response) {
+            self.setState({workOutData : response.data})
+            console.log(response.data)
         })
     }
 
@@ -79,18 +88,30 @@ export default class Home extends React.Component {
         return workoutDetailArr;
     }
 
+    changeComponent(monthAndYear){
+        const OneMonthWorkoutData = this.state.workOutData.filter((item) => item.monthAndYear === monthAndYear)
+        this.setState({OneMonthWorkoutData : OneMonthWorkoutData})
+        this.setState({jumpToResultDetail : true});
+    }
+
+    renderTab(){
+        if(this.state.jumpToResultDetail){
+           return <ResultDetail data = { this.state.OneMonthWorkoutData }/>
+        }
+    }
+
     ShowEachDate(){
-        if(this.state.dates.length === 0){
+        if(this.state.workOutData.length === 0){
             return <Spinner/>
         }else{
-            let dateArr = this.state.dates.map( item => {
+            let dateArr = this.state.workOutData.map( item => {
                 return(
                     <Card
-                        onClick={() => this.CardOnClick(item.date)}
-                        value = {item.date}
+                        onClick={() => this.changeComponent(item.monthAndYear)}
+                        value = {item.monthAndYear}
                         style={{ width: 150, height: 70 }}
                     >
-                        {item.date}
+                        {item.monthAndYear}
                     </Card>
                 )
             })
@@ -124,6 +145,7 @@ export default class Home extends React.Component {
                         </Col>
                     </Row>
                 </div>
+                {this.renderTab()}
             </div>
         )
     }

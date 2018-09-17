@@ -28,6 +28,16 @@ router.get('/getWorkout-detail',function(req, res) {
     })
 });
 
+router.get('/getWorkout',function(req, res) {
+    const workout = require('../../models/workout');
+    
+    workout.find({},function(err,response){
+        if(err)
+            res.send(err);
+        res.json(response);
+    })
+});
+
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workout = new Workout();
