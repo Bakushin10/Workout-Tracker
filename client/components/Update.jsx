@@ -14,6 +14,8 @@ export default class Home extends React.Component {
         this.state = {
             date : "", // ex) 7-22-2018
             day : "", // Mon, Tues, Wed...
+            month : "",
+            year : "",
             workoutDay : "",
             submitted : false,
             selectedItems : [],
@@ -92,9 +94,7 @@ export default class Home extends React.Component {
         this.pickWorkOutDay = this.pickWorkOutDay.bind(this);
         this.pickWorkOutDayOnClick = this.pickWorkOutDayOnClick.bind(this);
         this.displayWorkOutDay = this.displayWorkOutDay.bind(this);
-        this.hasWorkoutSelectedItem = this.hasWorkoutSelectedItem.bind(this);
-        this.hasWorkoutDay = this.hasWorkoutDay.bind(this);
-        this.hasDate = this.hasDate.bind(this);
+        this.checkLength = this.checkLength.bind(this);
     }
 
     showChestDetails(){
@@ -237,7 +237,7 @@ export default class Home extends React.Component {
     
     updateSelectedItem(){
         let updatedSelectedItem = [];
-        
+
         for(let muscle in this.state.muscleGroup){
             let muscleDetail = muscle + "Detail";
             if(this.state[muscleDetail]){
@@ -253,20 +253,12 @@ export default class Home extends React.Component {
         this.setState({selectedItems : updatedSelectedItem })
     }
 
-    hasWorkoutSelectedItem(){
-        return this.state.selectedItems.length === 0 ? true : false;
-    }
-
-    hasWorkoutDay(){
-        return this.state.workoutDay !== "" ? true : false
-    }
-
-    hasDate(){
-        return this.state.date === "" ? true : false
+    checkLength(item){
+        return item.length === 0 ? true : false
     }
 
     showSelectedItems(){
-        if(this.hasWorkoutSelectedItem()){
+        if(this.checkLength(this.state.selectedItems)){
             return(<div className = "wordColor">No Items Selected</div>)
         }else{
             return this.state.selectedItems;
@@ -274,7 +266,7 @@ export default class Home extends React.Component {
     }
 
     submitButton(){
-        if(this.hasWorkoutSelectedItem()){
+        if(this.checkLength(this.state.selectedItems)){
             return (<Button type="primary" disabled>Submit</Button>)
         }else{
             return (<Button type="primary" onClick = {this.submit}>Submit</Button>)
@@ -282,44 +274,49 @@ export default class Home extends React.Component {
     }
 
     updatePickerOnChange(e) {
-        let date = e._d.toString().split(" ");
-        const day = date[0];
-        const datePicked = date[1] + "-" + date[2] + "-" + date[3];
+        let dates = e._d.toString().split(" ");
+        const dayOfWeek = dates[0];
+        const month = dates[1];
+        const date = dates[2]
+        const year = dates[3]
+        const datePicked = month + "-" + date + "-" + year;
 
         this.setState({date: datePicked})
-        this.setState({day : day})
+        this.setState({day : dayOfWeek})
+        this.setState({month: month})
+        this.setState({year: year})
     }
 
     datePicker(){
-        if(this.hasWorkoutDay()){
-            return(
-                <div className = "button-center">
-                    <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
-                </div>
-            )
-        }else{
+        if(this.checkLength(this.state.workoutDay)){
             return(                    
                 <div className = "button-center">
                     <DatePicker disabled onChange={(e) => this.updatePickerOnChange(e)} />
+                </div>
+            )
+        }else{
+            return(
+                <div className = "button-center">
+                    <DatePicker onChange={(e) => this.updatePickerOnChange(e)} />
                 </div>
             )   
         }
     }
 
     displayWorkOutDay(){
-        if(this.hasWorkoutDay()){
+        if(this.checkLength(this.state.workoutDay)){
             return(
-                <div>{ this.state.workoutDay + " Day"}</div>
+                <div className = "wordColor">No Workout day Selected</div>
             )
         }else{
             return(
-                <div className = "wordColor">No Workout day Selected</div>
+                <div>{ this.state.workoutDay + " Day"}</div>
             )
         }
     }
 
     displayDate(){
-        if(this.hasDate()){
+        if(this.checkLength(this.state.date)){
             return(
                 <div className = "wordColor">No workout Date Selected</div>
             )
@@ -331,7 +328,7 @@ export default class Home extends React.Component {
     }
 
     workoutPicker(){
-        if(this.hasDate()){
+        if(this.checkLength(this.state.date)){
             return(
                 <div align="left" >
                     <Checkbox disabled><b>Chest</b></Checkbox>
@@ -415,6 +412,8 @@ export default class Home extends React.Component {
             querystring.stringify({
                         date : this.state.date,
                         day : this.state.day,
+                        month : this.state.month,
+                        year : this.state.year,
                         muscleUsed : muscleUsed,
                         workoutDay : this.state.workoutDay,
                         // chest

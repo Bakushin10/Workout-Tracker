@@ -3,11 +3,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var workoutSchema = new Schema({
-    date : String,
-    day : String,
-    workoutDay : String,
-    muscleUsed : [],
+
+    monthAndYear : String,
     muscleGroup :[{
+        date : String,
+        day : String,
+        month : String,
+        workoutDay : String,
+        muscleUsed : [],
         chest : [{
             BarbellBenchPress : Boolean,
             FlatBenchDumbbellPress : Boolean,

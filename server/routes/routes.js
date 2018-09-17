@@ -31,7 +31,7 @@ router.route('/update').post(function(req, res) {
      month: req.body.month,
      year: req.body.year
  };
-    console.log(doc);
+ 
     Expense.update({_id: req.body._id}, doc, function(err, result) {
       if (err)
         res.send(err);
@@ -89,18 +89,15 @@ router.get('/getWorkout-detail',function(req, res) {
 
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
-    var workoutDate = require('../../models/workout-date');
     var workout = new Workout();
-    var workoutDate = new workoutDate();
+    const monthAndYear = req.body.month+ "-" + req.body.year;
 
-    workoutDate.date = req.body.date;
-    workoutDate.day = req.body.day;
-    workout.workoutDay = req.body.workoutDay;
-
-    workout.date = req.body.date;
-    workout.day = req.body.day;
-    workout.muscleUsed = req.body.muscleUsed;
-    workout.muscleGroup = {
+    const newWorkout = {
+        date : req.body.date,
+        day : req.body.day,
+        month : req.body.month,
+        workoutDay : req.body.workoutDay,
+        muscleUsed : req.body.muscleUsed,
         chest : [{
             BarbellBenchPress : req.body.BarbellBenchPress,
             FlatBenchDumbbellPress : req.body.FlatBenchDumbbellPress,
@@ -148,18 +145,17 @@ router.route('/updateWorkout').post(function(req,res){
         }]
     }
 
-    console.log(workout)
+    //console.log(workout)
+    //console.log(monthAndYear)
 
-    workout.save(function(err) {
-        if (err)
-            res.send(err);
-        else{
-            workoutDate.save(function(err) {
-                if (err)
-                    res.send(err);
-                res.send('Expense successfully added!');
-            });
-        }
+    Workout.findOneAndUpdate({'monthAndYear' : monthAndYear},{$push:{muscleGroup:newWorkout}},{upsert:true},
+        function(err,docs) {
+            if (err)
+                res.send(err);
+            else{
+                console.log("New data Successfully added\n");
+                res.json(docs);
+            }
     });
 });
 
