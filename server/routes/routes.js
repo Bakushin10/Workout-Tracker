@@ -41,7 +41,8 @@ router.get('/getWorkout',function(req, res) {
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workout = new Workout();
-    const monthAndYear = req.body.month+ "-" + req.body.year;
+    const month = req.body.month;
+    const year = req.body.year;
 
     const newWorkout = {
         date : req.body.date,
@@ -99,7 +100,9 @@ router.route('/updateWorkout').post(function(req,res){
     //console.log(workout)
     //console.log(monthAndYear)
 
-    Workout.findOneAndUpdate({'monthAndYear' : monthAndYear},{$push:{muscleGroup:newWorkout}},{upsert:true},
+    Workout.findOneAndUpdate(
+        {'month' : month, 'year' : year}, //check the matching 
+        {$push:{muscleGroup:newWorkout}},{upsert:true},
         function(err,docs) {
             if (err)
                 res.send(err);

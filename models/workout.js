@@ -4,7 +4,8 @@ var Schema = mongoose.Schema;
 
 var workoutSchema = new Schema({
 
-    monthAndYear : String,
+    month : String,
+    year : String,
     muscleGroup :[{
         date : String,
         day : String,

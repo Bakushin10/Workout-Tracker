@@ -5,10 +5,7 @@ import Spinner from './utility/Spinner';
 import Header from './utility/header';
 import { MUSCLEPARTS } from './utility/CommonJS';
 import ResultDetail from './ResultDetail';
-
-var Post = (props) => {
-    return <div onClick={()=>props.changeComponent('detail')}> POST </div>
-}
+import { Button } from 'antd/lib/radio';
 
 export default class Result extends React.Component {
 
@@ -19,14 +16,15 @@ export default class Result extends React.Component {
             OneMonthWorkoutData : [],
             worktoutDay : "",
             workOutDetails : [],
-            jumpToResultDetail : false
+            showDetail : false
         }
         
-        this.ShowEachDate = this.ShowEachDate.bind(this);
-        this.CardOnClick = this.CardOnClick.bind(this);
-        this.ShowWorkoutDetails = this.ShowWorkoutDetails.bind(this);
+        this.showEachMonth = this.showEachMonth.bind(this);
         this.ShowWorkOutDay = this.ShowWorkOutDay.bind(this);
         this.changeComponent = this.changeComponent.bind(this);
+        this.showDetailsOfEachWorkout = this.showDetailsOfEachWorkout.bind(this);
+        this.goBack = this.goBack.bind(this);
+        this.getEachWorkoutInAMonth = this.getEachWorkoutInAMonth.bind(this);
     }
 
     componentDidMount() {
@@ -37,81 +35,58 @@ export default class Result extends React.Component {
         })
     }
 
-    CardOnClick(date){
-        let self = this;
-
-        axios.get('/getWorkout-detail', {
-            params:{
-                date : date 
-              }
-        }).then(function(response) {
-
-            console.log(response)
-            let detailToShow = []
-            response.data[0].muscleUsed.map((mustle, index) => { 
-                if(mustle){
-                    const musclepart = MUSCLEPARTS[index]
-                    const muscle = response.data[0].muscleGroup[0]
-                    detailToShow.push(musclepart) //insert Muscle part like chest, back, shoulder...
-                   
-                    for(let j in muscle[musclepart][0]){
-                        if(muscle[musclepart][0][j] === true){
-                            detailToShow.push(j) //insert details mustle
-                        }
-                    }
-                }
-            })
-            self.setState({worktoutDay : response.data[0].workoutDay})
-            self.setState({workOutDetails : detailToShow})
-        })
-    }
-
-    ShowWorkoutDetails(){
-        if(this.state.workOutDetails.length === 0){
-            return(
-                <div> Click on an item for detail!</div>
-            )
-        }
-
-        let workoutDetailArr = this.state.workOutDetails.map( item =>{
-            if(MUSCLEPARTS.includes(item)){
-                return(
-                    <div><b>{ item }</b></div>
-                )
-            }else{
-                return(
-                    <div>{ item }</div>
-                )
-            }
-        })
-
-        return workoutDetailArr;
-    }
-
-    changeComponent(monthAndYear){
-        const OneMonthWorkoutData = this.state.workOutData.filter((item) => item.monthAndYear === monthAndYear)
+    changeComponent(date){
+        const OneMonthWorkoutData = this.state.workOutData.filter(
+            (item) => item.year === date.year && item.month === date.month
+        )
         this.setState({OneMonthWorkoutData : OneMonthWorkoutData})
-        this.setState({jumpToResultDetail : true});
+        this.setState({showDetail : true});
     }
 
-    renderTab(){
-        if(this.state.jumpToResultDetail){
+    getEachWorkoutInAMonth(){
+        if(this.state.showDetail){
            return <ResultDetail data = { this.state.OneMonthWorkoutData }/>
         }
     }
 
-    ShowEachDate(){
-        if(this.state.workOutData.length === 0){
+    goBack(){
+        this.setState({showDetail : false})
+    }
+
+    showDetailsOfEachWorkout(){
+        if(this.state.showDetail){
+            const eachWorkout = this.getEachWorkoutInAMonth()
+            return(
+                <div>
+                    <Button onClick={() => this.goBack()}>
+                        go back
+                    </Button>
+                    { eachWorkout }
+                </div>
+            )
+        }
+    }
+
+    showEachMonth(){
+        if(this.state.showDetail){
+            return(<span></span>)
+        }
+        else if(this.state.workOutData.length === 0){
             return <Spinner/>
         }else{
             let dateArr = this.state.workOutData.map( item => {
+                const date = {
+                    year : item.year,
+                    month : item.month
+                }
+                const monthAndYear = item.month + "-" + item.year;
                 return(
                     <Card
-                        onClick={() => this.changeComponent(item.monthAndYear)}
-                        value = {item.monthAndYear}
+                        onClick={() => this.changeComponent(date)}
+                        value = { monthAndYear }
                         style={{ width: 150, height: 70 }}
                     >
-                        {item.monthAndYear}
+                        { monthAndYear }
                     </Card>
                 )
             })
@@ -136,16 +111,15 @@ export default class Result extends React.Component {
                 <div>
                     <Row>
                         <Col span={5} offset = {6}>
-                            {this.ShowEachDate()}
+                            {this.showEachMonth()}
+                            {this.showDetailsOfEachWorkout()}
                         </Col>
                         <Col span = {2} className = "vl"></Col>
                         <Col span={8}>
                             { this.ShowWorkOutDay() }
-                            { this.ShowWorkoutDetails() }
                         </Col>
                     </Row>
                 </div>
-                {this.renderTab()}
             </div>
         )
     }
