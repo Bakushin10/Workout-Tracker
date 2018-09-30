@@ -76,3 +76,11 @@ margin:0px auto;
 .card{
   padding: 9px;
 }
+
+.image{
+  height: 25px;
+}
+
+.alignLeft{
+  text-align: left
+}

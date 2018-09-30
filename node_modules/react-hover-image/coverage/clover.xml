@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1508446168416" clover="3.2.0">
+  <project timestamp="1508446168416" name="All files">
+    <metrics statements="9" coveredstatements="8" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="4" elements="18" coveredelements="16" complexity="0" loc="9" ncloc="9" packages="1" files="1" classes="1">
+      <file name="index.js" path="/Users/jwo/Projects/react-hover-image/src/index.js">
+        <metrics statements="9" coveredstatements="8" conditionals="4" coveredconditionals="4" methods="5" coveredmethods="4"/>
+        <line num="6" count="6" type="stmt"/>
+        <line num="7" count="6" type="stmt"/>
+        <line num="13" count="3" type="cond" truecount="2" falsecount="0"/>
+        <line num="14" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="28" count="7" type="stmt"/>
+        <line num="39" count="1" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>
