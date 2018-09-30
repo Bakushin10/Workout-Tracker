@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button, Checkbox, DatePicker, Dropdown, Menu, Icon} from 'antd';
+import { Row, Col, Button, Checkbox, DatePicker, Dropdown, Menu, Icon, Modal} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
 import HoverImage from "react-hover-image"
@@ -13,7 +13,9 @@ export default class Home extends React.Component {
 
     constructor(){
         super();
+        
         this.state = {
+            visible: false,
             date : "", // ex) 7-22-2018
             day : "", // Mon, Tues, Wed...
             month : "",
@@ -75,6 +77,7 @@ export default class Home extends React.Component {
                 }
             }
         }
+
         this.showChestDetails = this.showChestDetails.bind(this);
         this.showBackDetails = this.showBackDetails.bind(this);
         this.showShoulderDetails = this.showShoulderDetails.bind(this);
@@ -98,6 +101,15 @@ export default class Home extends React.Component {
         this.displayWorkOutDay = this.displayWorkOutDay.bind(this);
         this.checkLength = this.checkLength.bind(this);
         this.hoverImage = this.hoverImage.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+    }
+            
+    showModal(){
+        this.setState({visible: true,})
+    }
+    handleCancel(){
+        this.setState({visible: false});
     }
 
     hoverImage(fileName){
@@ -107,11 +119,19 @@ export default class Home extends React.Component {
         return(
             <span>
                 Barbell Bench Press
-                <HoverImage
-                    style={{ width: 70, height: 70 }}
-                    src={image}
-                    hoverSrc={file}
-                />
+                <Icon type="picture" theme="twoTone" twoToneColor="#eb2f96" onClick={this.showModal} />
+                {/* <Button type="primary" onClick={this.showModal}>
+                    Open Modal
+                </Button> */}
+                <Modal
+                    title="Basic Modal"
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    
+                    onCancel={this.handleCancel}
+                >
+                <img src= {file} alt="Smiley face" height="150" width="150"></img>
+                </Modal>
             </span>
         )
     }
@@ -502,7 +522,7 @@ export default class Home extends React.Component {
                         </Col>
                     </Row>
                     <Row className = "space">
-                        <Col span={5} offset = {5}>
+                        <Col span={5} offset = {6}>
                             {this.workoutPicker()}
                         </Col>
                         <Col span={2} offset = {1}>
