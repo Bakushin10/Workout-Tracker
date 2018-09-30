@@ -24,7 +24,7 @@ export default class ResultDetail extends React.Component {
 
         const cards = detailToShow.map(data => {
             return(
-                <Card
+                <Card 
                     onClick={() => this.changeComponent(data)}
                     style={{ width: 180, height: 70 }}
                 >
