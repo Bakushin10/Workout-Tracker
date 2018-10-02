@@ -1,11 +1,11 @@
 import React from 'react';
-import { Row, Col, Button, Checkbox, DatePicker, Dropdown, Menu, Icon, Modal} from 'antd';
+import { Row, Col, Button, Checkbox, DatePicker, Dropdown, Menu} from 'antd';
 import Header from './utility/header';
 import ReactDOM from 'react-dom';
-import HoverImage from "react-hover-image"
 import axios from 'axios';
 import { Redirect } from 'react-router';
 import { MUSCLEPARTS } from './utility/CommonJS';
+import ShowImage from './ShowImage';
 
 let querystring = require('querystring');
 
@@ -15,7 +15,6 @@ export default class Home extends React.Component {
         super();
         
         this.state = {
-            visible: false,
             date : "", // ex) 7-22-2018
             day : "", // Mon, Tues, Wed...
             month : "",
@@ -82,38 +81,6 @@ export default class Home extends React.Component {
         this.updateMuscleItem = this.updateMuscleItem.bind(this);
         this.showSelectedItems = this.showSelectedItems.bind(this);
         this.updatePickerOnChange = this.updatePickerOnChange.bind(this);
-        this.submit = this.submit.bind(this);
-        this.pickWorkOutDayOnClick = this.pickWorkOutDayOnClick.bind(this);
-        this.showModal = this.showModal.bind(this);
-        this.handleCancel = this.handleCancel.bind(this);
-    }
-            
-    showModal(){
-        this.setState({visible: true,})
-    }
-    handleCancel(){
-        this.setState({visible: false});
-    }
-
-    hoverImage(fileName){
-        const file = "../css/image/"+ fileName + ".jpeg"
-        const image = "../css/image/image.png"
-        
-        return(
-            <span>
-                Barbell Bench Press
-                <Icon type="picture" theme="twoTone" twoToneColor="#eb2f96" onClick={this.showModal} />
-                <Modal
-                    title="Basic Modal"
-                    visible={this.state.visible}
-                    onOk={this.handleOk}
-                    
-                    onCancel={this.handleCancel}
-                >
-                <img src= {file} alt="Smiley face" height="150" width="150"></img>
-                </Modal>
-            </span>
-        )
     }
 
     showChestDetails(){
@@ -121,7 +88,7 @@ export default class Home extends React.Component {
             return(
                 <div>
                     <Col span={5} offset = {6}>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "BarbellBenchPress") } >{this.hoverImage("dumbellBenchPress")}</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "BarbellBenchPress") } >{<ShowImage fileName = "BBP"/>}</Checkbox>
                         <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "FlatBenchDumbbellPress") }>Flat Bench Dumbbell Press</Checkbox>
                         <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineDumbbellPress") }>Incline Dumbbell Press</Checkbox>
                         <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "LowInclineBarbellBenchPress") }>Low-Incline Barbell Bench Press (downward)</Checkbox>
