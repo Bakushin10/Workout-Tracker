@@ -18,20 +18,15 @@ export default class Result extends React.Component {
             workOutDetails : [],
             showDetail : false
         }
-        
-        this.showEachMonth = this.showEachMonth.bind(this);
-        this.ShowWorkOutDay = this.ShowWorkOutDay.bind(this);
+
         this.changeComponent = this.changeComponent.bind(this);
-        this.showDetailsOfEachWorkout = this.showDetailsOfEachWorkout.bind(this);
         this.goBack = this.goBack.bind(this);
-        this.getEachWorkoutInAMonth = this.getEachWorkoutInAMonth.bind(this);
     }
 
     componentDidMount() {
         let self = this;
         axios.get('/getWorkout').then(function(response) {
             self.setState({workOutData : response.data})
-            console.log(response.data)
         })
     }
 

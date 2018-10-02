@@ -14,9 +14,6 @@ export default class ResultDetail extends React.Component {
             day: String,
             exercise : []
         }
-        this.getWorkOutDetail = this.getWorkOutDetail.bind(this);
-        this.showDetailWorkout = this.showDetailWorkout.bind(this);
-        this.displayWorkout = this.displayWorkout.bind(this);
     }
 
     showDetailWorkout(){

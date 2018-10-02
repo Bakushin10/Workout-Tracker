@@ -78,29 +78,12 @@ export default class Home extends React.Component {
             }
         }
 
-        this.showChestDetails = this.showChestDetails.bind(this);
-        this.showBackDetails = this.showBackDetails.bind(this);
-        this.showShoulderDetails = this.showShoulderDetails.bind(this);
-        this.showBicepsDetails = this.showBicepsDetails.bind(this);
-        this.showTricepsDetails = this.showTricepsDetails.bind(this);
-        this.showLegsDetails = this.showLegsDetails.bind(this);
-
         this.muscleOnChange = this.muscleOnChange.bind(this);
-        this.updateSelectedItem = this.updateSelectedItem.bind(this);
         this.updateMuscleItem = this.updateMuscleItem.bind(this);
         this.showSelectedItems = this.showSelectedItems.bind(this);
-        this.submitButton =  this.submitButton.bind(this);
         this.updatePickerOnChange = this.updatePickerOnChange.bind(this);
         this.submit = this.submit.bind(this);
-        this.datePicker = this.datePicker.bind(this);
-        this.displayDate = this.displayDate.bind(this);
-        this.workoutPicker = this.workoutPicker.bind(this);
-        this.getMuscleUsed = this.getMuscleUsed.bind(this);
-        this.pickWorkOutDay = this.pickWorkOutDay.bind(this);
         this.pickWorkOutDayOnClick = this.pickWorkOutDayOnClick.bind(this);
-        this.displayWorkOutDay = this.displayWorkOutDay.bind(this);
-        this.checkLength = this.checkLength.bind(this);
-        this.hoverImage = this.hoverImage.bind(this);
         this.showModal = this.showModal.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
     }
@@ -120,9 +103,6 @@ export default class Home extends React.Component {
             <span>
                 Barbell Bench Press
                 <Icon type="picture" theme="twoTone" twoToneColor="#eb2f96" onClick={this.showModal} />
-                {/* <Button type="primary" onClick={this.showModal}>
-                    Open Modal
-                </Button> */}
                 <Modal
                     title="Basic Modal"
                     visible={this.state.visible}
