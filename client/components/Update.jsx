@@ -77,6 +77,7 @@ export default class Home extends React.Component {
             }
         }
 
+        this.submit = this.submit.bind(this);
         this.muscleOnChange = this.muscleOnChange.bind(this);
         this.updateMuscleItem = this.updateMuscleItem.bind(this);
         this.showSelectedItems = this.showSelectedItems.bind(this);
@@ -377,7 +378,7 @@ export default class Home extends React.Component {
     }
 
     submit(){
-        let muscleUsed = this.getMuscleUsed()
+        let muscleUsed = this.getMuscleUsed();
         axios.post('/updateWorkout',
             querystring.stringify({
                         date : this.state.date,

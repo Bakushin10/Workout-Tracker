@@ -32,7 +32,6 @@ export default class ShowImage extends React.Component {
                     title="Basic Modal"
                     visible={this.state.visible}
                     onOk={this.handleOk}
-                    
                     onCancel={this.handleCancel}
                 >
                     <div>{ excerciseName }</div>
