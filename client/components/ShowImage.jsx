@@ -21,21 +21,20 @@ export default class ShowImage extends React.Component {
         this.setState({visible: false});
     }
 
-    hoverImage(fileName){
-        const file = "../css/image/"+ fileName + ".jpeg"
+    hoverImage(fileName,muscle){
+        const file = "../css/image/"+ muscle +"/"+ fileName + ".jpeg"
         const excerciseName = getWorkoutMenuName(fileName)
         return(
             <span>
                 { excerciseName + " " }
                 <Icon type="picture" theme="twoTone" twoToneColor="#eb2f96" onClick={this.showModal} />
                 <Modal
-                    title="Basic Modal"
+                    title= { excerciseName }
                     visible={this.state.visible}
                     onOk={this.handleOk}
                     onCancel={this.handleCancel}
                 >
-                    <div>{ excerciseName }</div>
-                    <img src= {file} alt="Smiley face" height="150" width="150"></img>
+                    <img src= {file} alt="Smiley face" height="250" width="300"></img>
                 </Modal>
             </span>
         )
@@ -43,7 +42,7 @@ export default class ShowImage extends React.Component {
 
     render(){
         return(
-            <span>{this.hoverImage(this.props.fileName)}</span>
+            <span>{this.hoverImage(this.props.fileName, this.props.muscle)}</span>
         )    
     }
 }

@@ -23,7 +23,7 @@ var workoutSchema = new Schema({
             pushUps : Boolean
         }],
         back : [{
-            Deadlist : Boolean,
+            Deadlift : Boolean,
             Pullups : Boolean,
             ChinUps : Boolean,
             WideGripRearPullUp : Boolean,

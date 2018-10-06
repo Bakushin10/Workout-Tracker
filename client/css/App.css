@@ -84,3 +84,8 @@ margin:0px auto;
 .alignLeft{
   text-align: left
 }
+
+.imageSize{
+  height : "150";
+  width : "150";
+}

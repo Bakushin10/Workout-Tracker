@@ -61,7 +61,7 @@ router.route('/updateWorkout').post(function(req,res){
             pushUps : req.body.pushUps
         }],
         back : [{
-            Deadlist : req.body.Deadlist,
+            Deadlift : req.body.Deadlift,
             Pullups : req.body.Pullups,
             ChinUps : req.body.ChinUps,
             WideGripRearPullUp : req.body.WideGripRearPullUp,

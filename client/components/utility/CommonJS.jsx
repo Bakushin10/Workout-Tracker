@@ -17,3 +17,13 @@ export const getWorkoutDetail = (workOutDetails) =>{
 
     return workoutDetailArr;
 }
+
+
+export const MUSCLE = {
+    CHEST: 'chest',
+    BACK: 'back',
+    BICEP: 'biceps',
+    TRICEP: 'tricpes',
+    SHOULDER: 'shoulder',
+    LEGS: 'legs'
+  };

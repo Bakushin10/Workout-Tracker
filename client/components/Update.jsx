@@ -40,7 +40,7 @@ export default class Home extends React.Component {
                     pushUps : false
                 },
                 back : {
-                    Deadlist : false,
+                    Deadlift : false,
                     Pullups : false,
                     ChinUps : false,
                     WideGripRearPullUp : false,
@@ -89,14 +89,14 @@ export default class Home extends React.Component {
             return(
                 <div>
                     <Col span={5} offset = {6}>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "BarbellBenchPress") } >{<ShowImage fileName = "BBP"/>}</Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "FlatBenchDumbbellPress") }>Flat Bench Dumbbell Press</Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineDumbbellPress") }>Incline Dumbbell Press</Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "LowInclineBarbellBenchPress") }>Low-Incline Barbell Bench Press (downward)</Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "SeatedMachineChestPress") }>Seated Machine Chest Press  </Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "Dips") }>Dips</Checkbox>
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineBenchCableFly") }>Incline Bench Cable Fly  </Checkbox>                
-                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest","pushUps") }>push ups</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "BarbellBenchPress") } >{<ShowImage fileName = "BBP" muscle="chest"/>}</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "FlatBenchDumbbellPress") }>{<ShowImage fileName = "FBDP"muscle="chest"/>}</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineDumbbellPress") }>{<ShowImage fileName = "IDP" muscle="chest"/>}</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "LowInclineBarbellBenchPress") }> {<ShowImage fileName = "LIBBP" muscle="chest"/>} </Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "SeatedMachineChestPress") }>{<ShowImage fileName = "SMCP" muscle="chest"/>}  </Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "Dips") }>{<ShowImage fileName = "DIPS" muscle="chest"/>}</Checkbox>
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest", "InclineBenchCableFly") }>{<ShowImage fileName = "IBCF" muscle="chest"/>}  </Checkbox>                
+                        <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "chest","pushUps") }> {<ShowImage fileName = "PUS" muscle="chest"/>} </Checkbox>
                     </Col>
                 </div>
             )
@@ -107,13 +107,13 @@ export default class Home extends React.Component {
         if(this.state.backDetail){
             return(
                 <div>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "Deadlist") } >Deadlist</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "Pullups") }>Pullups</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "ChinUps") }>ChinUps</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "WideGripRearPullUp") }>Wide-Grip Rear PullUp</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "OneArmDumbellRow") }>One Arm Dumbell Row</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "V_barPulldown") }>V-bar Pulldown</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "WideBarPulldown") }>Wide Bar Pulldown </Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "Deadlift") }> { <ShowImage fileName = "DL" muscle="back"/>} </Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "Pullups") }> { <ShowImage fileName = "PUS" muscle="back"/>} </Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "ChinUps") }>{ <ShowImage fileName = "CUP" muscle="back"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "WideGripRearPullUp") }>{ <ShowImage fileName = "WGRP" muscle="back"/> }</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "OneArmDumbellRow") }>{ <ShowImage fileName = "OADR" muscle="back"/> }</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "V_barPulldown") }>{ <ShowImage fileName = "VBP" muscle="back"/> }</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "back", "WideBarPulldown") }>{ <ShowImage fileName = "WBP" muscle="back"/> } </Checkbox>
                 </div>
             )
         }
@@ -123,12 +123,11 @@ export default class Home extends React.Component {
         if(this.state.shoulderDetail){
             return(
                 <div>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "StandingDumbellPress") } >Standing Dumbell Press</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "StandingMilitaryPress") }>Standing Military Press</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "SeatedBarbellMilitaryPress") }>Seated Barbell Military Press</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "OneArmSideLaterals") }>One Arm Side Laterals</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "OneArmDumbellRow") }>One Arm Dumbell Row</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "PowerPartials") }>Power Partials</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "StandingDumbellPress") } >{ <ShowImage fileName = "SDP" muscle="shoulder"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "StandingMilitaryPress") }>{ <ShowImage fileName = "SMP" muscle="shoulder"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "SeatedBarbellMilitaryPress") }>{ <ShowImage fileName = "SBMP" muscle="shoulder"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "OneArmSideLaterals") }>{ <ShowImage fileName = "OASL" muscle="shoulder"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "shoulder", "PowerPartials") }>{ <ShowImage fileName = "PP" muscle="shoulder"/>}</Checkbox>
                 </div>
             )
         }
@@ -138,12 +137,12 @@ export default class Home extends React.Component {
         if(this.state.bicepsDetail){
             return(
                 <div>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "EZBarCurl") } >EZ-BarCurl</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "CloseGripEZBarCurl") }>Close Grip EZ-BarCurl</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "ConcentrationCurls") }>Concentration Curls</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "HammerCurls") }>Hammer Curls</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "InclineDumbbellCurls") }>Incline Dumbbell Curls</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "CableCurl") }>Cable Curl</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "EZBarCurl") } > { <ShowImage fileName = "EZC" muscle="biceps"/>} </Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "CloseGripEZBarCurl") }>{ <ShowImage fileName = "CDEZC" muscle="biceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "ConcentrationCurls") }>{ <ShowImage fileName = "CC" muscle="biceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "HammerCurls") }>{ <ShowImage fileName = "HC" muscle="biceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "InclineDumbbellCurls") }>{ <ShowImage fileName = "IDC" muscle="biceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "biceps", "CableCurl") }>{ <ShowImage fileName = "CBC" muscle="biceps"/>}</Checkbox>
                 </div>
             )
         }
@@ -153,11 +152,11 @@ export default class Home extends React.Component {
         if(this.state.tricepsDetail){
             return(
                 <div>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "TricepsPushdown") } >Triceps Pushdown</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "BenchDip") }>Bench Dip</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "EZBarTriceps") }>EZ-Bar Triceps</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "SeatedTricepsPress") }>Seated Triceps Press</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "CloseGripBarbellBenchPress") }>Close Grip Barbell Bench Press</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "TricepsPushdown") }> { <ShowImage fileName = "TP" muscle="triceps"/>} </Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "BenchDip") }>{ <ShowImage fileName = "TBP" muscle="triceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "EZBarTriceps") }>{ <ShowImage fileName = "EZT" muscle="triceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "SeatedTricepsPress") }>{ <ShowImage fileName = "STP" muscle="triceps"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "triceps", "CloseGripBarbellBenchPress") }>{ <ShowImage fileName = "CGBBP" muscle="triceps"/>}</Checkbox>
                 </div>
             )
         }
@@ -167,8 +166,8 @@ export default class Home extends React.Component {
         if(this.state.legsDetail){
             return(
                 <div>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "legs", "LegPress") }>Leg Press</Checkbox>
-                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "legs", "Squat") }>Squat</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "legs", "LegPress") }>{ <ShowImage fileName = "LP" muscle="legs"/>}</Checkbox>
+                    <Checkbox className = "alignLeft" onChange = { (e) => this.updateMuscleItem(e, "legs", "Squat") }>{ <ShowImage fileName = "SQUAT" muscle="legs"/>}</Checkbox>
                 </div>
             )
         }
@@ -398,7 +397,7 @@ export default class Home extends React.Component {
                         pushUps : this.state.muscleGroup.chest.pushUps,
 
                         // back
-                        Deadlist : this.state.muscleGroup.back.Deadlist,
+                        Deadlift : this.state.muscleGroup.back.Deadlift,
                         Pullups : this.state.muscleGroup.back.Pullups,
                         ChinUps : this.state.muscleGroup.back.ChinUps,
                         WideGripRearPullUp : this.state.muscleGroup.back.WideGripRearPullUp,
