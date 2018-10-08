@@ -1,6 +1,7 @@
 // import React...
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { convertMonth } from './utility/dictionary';
  
 // ... and fullcalendar-reactwrapper.
 import FullCalendar from 'fullcalendar-reactwrapper';
@@ -10,7 +11,9 @@ export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    events:[
+        Date : new Date(),
+        defaultDate : "2018-10-20",
+        events:[
                 {
                     title: 'All Day Event',
                     start: '2017-05-01'
@@ -49,26 +52,36 @@ export default class Calendar extends React.Component {
                     url: 'http://google.com/',
                     start: '2017-05-28'
                 }
-            ],		
+        ],		
     }
   }
  
+  componentDidMount(){
+    const dates = this.state.Date.toString().split(" ");
+    const month = convertMonth(dates[1]);
+    const date = dates[2]
+    const year = dates[3]
+    const datePicked = year + "-" + month + "-" + date;
+    console.log(datePicked)
+    this.setState({defaultDate : datePicked})
+  }
+
   render() {
     return (
       <div id="example-component">
         <FullCalendar
-             id = "your-custom-ID"
-         header = {{
-            left: 'prev,next today myCustomButton',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        }}
-        defaultDate={'2017-09-12'}
-        navLinks= {true} // can click day/week names to navigate views
-        editable= {true}
-        eventLimit= {true} // allow "more" link when too many events
-        events = {this.state.events}	
-    />
+            id = "your-custom-ID"
+            header = {{
+                left: 'prev,next today myCustomButton',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            }}
+            defaultDate={this.state.defaultDate}
+            navLinks= {true} // can click day/week names to navigate views
+            editable= {true}
+            eventLimit= {true} // allow "more" link when too many events
+            events = {this.state.events}	
+        />
       </div>
     );
   }

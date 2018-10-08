@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Redirect } from 'react-router';
 import { MUSCLEPARTS } from './utility/CommonJS';
+import { convertMonth } from './utility/dictionary';
 import ShowImage from './ShowImage';
 
 let querystring = require('querystring');
@@ -234,10 +235,10 @@ export default class Home extends React.Component {
     updatePickerOnChange(e) {
         let dates = e._d.toString().split(" ");
         const dayOfWeek = dates[0];
-        const month = dates[1];
+        const month = convertMonth(dates[1]);
         const date = dates[2]
         const year = dates[3]
-        const datePicked = month + "-" + date + "-" + year;
+        const datePicked = year + "-" + month + "-" + date;
 
         this.setState({date: datePicked})
         this.setState({day : dayOfWeek})
