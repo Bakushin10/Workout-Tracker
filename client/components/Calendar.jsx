@@ -2,6 +2,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { convertMonth } from './utility/dictionary';
+import { Row, Col } from 'antd';
  
 // ... and fullcalendar-reactwrapper.
 import FullCalendar from 'fullcalendar-reactwrapper';
@@ -62,27 +63,62 @@ export default class Calendar extends React.Component {
     const date = dates[2]
     const year = dates[3]
     const datePicked = year + "-" + month + "-" + date;
-    console.log(datePicked)
     this.setState({defaultDate : datePicked})
   }
-
+  
   render() {
+
+    const options = {
+        header: {
+            left: '',
+            center: 'title',
+            right: 'today prev,next'
+        },
+        defaultView: 'month',
+        // navLinks = true,
+        // editable = true,
+        // eventLimit = true,
+        defaultDate : this.state.defaultDate,
+        events: this.state.events
+    }
+
+
     return (
       <div id="example-component">
-        <FullCalendar
-            id = "your-custom-ID"
-            header = {{
-                left: 'prev,next today myCustomButton',
-                center: 'title',
-                right: 'month,basicWeek,basicDay'
-            }}
-            defaultDate={this.state.defaultDate}
-            navLinks= {true} // can click day/week names to navigate views
-            editable= {true}
-            eventLimit= {true} // allow "more" link when too many events
-            events = {this.state.events}	
-        />
+        <Row gutter={8}>
+            <Col span={12} offset={6}>
+                <FullCalendar {...options}/>
+            </Col>
+        </Row>
       </div>
     );
   }
 }
+
+// id = "your-custom-ID"
+// header = {{
+//     left: 'prev,next today myCustomButton',
+//     center: 'title',
+//     right: 'month,basicWeek,basicDay'
+// }}
+// defaultDate={this.state.defaultDate}
+// navLinks= {true} // can click day/week names to navigate views
+// editable= {true}
+// eventLimit= {true} // allow "more" link when too many events
+// events = {this.state.events}
+
+
+// header: { 
+//     left: 'month,basicWeek,basicDay,listMonth',
+//     center: 'title', 
+//     right: 'customPrevButton,customNextButton today' }, 
+//     customButtons: { 
+//         customPrevButton:{ 
+//             text: 'prev', 
+//             click: function () { console.log('prev') } 
+//         }, 
+//         customNextButton: { 
+//             text: 'next!', 
+//             click: function () { console.log('next') } 
+//           } 
+//   }
