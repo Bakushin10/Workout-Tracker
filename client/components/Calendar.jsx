@@ -7,7 +7,12 @@ import { Row, Col } from 'antd';
 // ... and fullcalendar-reactwrapper.
 import FullCalendar from 'fullcalendar-reactwrapper';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
- 
+
+///TODO
+/*
+ *  create server side request for event state
+ */
+
 export default class Calendar extends React.Component {
   constructor(props) {
     super(props);
@@ -67,13 +72,33 @@ export default class Calendar extends React.Component {
   }
   
   render() {
-
     const options = {
-        header: {
-            left: '',
-            center: 'title',
-            right: 'today prev,next'
+        header: { 
+            left: 'month,basicWeek,basicDay,listMonth',
+            center: 'title', 
+            right: 'next customPrevButton,customNextButton today' 
         },
+        next:{
+            customPrevButton:{ 
+                text: 'prev', 
+                click: function () { console.log('prev') } 
+            } 
+        }, 
+            customButtons: { 
+                customPrevButton:{ 
+                    text: 'prev', 
+                    click: function () { console.log('prev') } 
+                }, 
+                customNextButton: { 
+                    text: 'next!', 
+                    click: function () { console.log('next') } 
+                  } 
+        },
+        // header: {
+        //     left: '',
+        //     center: 'title',
+        //     right: 'today prev,next'
+        // },
         defaultView: 'month',
         // navLinks = true,
         // editable = true,
@@ -82,12 +107,20 @@ export default class Calendar extends React.Component {
         events: this.state.events
     }
 
-
+    
     return (
       <div id="example-component">
         <Row gutter={8}>
             <Col span={12} offset={6}>
-                <FullCalendar {...options}/>
+                <FullCalendar {...options}
+                    // ref={calendar => {
+                    //     this.fullCalendar = calendar
+                    //     if(this.fullCalendar !== null){
+                    //         let moment = this.fullCalendar.instance.fullCalendar('viewRender');
+                    //         console.log(moment)
+                    //     }//viewRender: (view, element)=> { console.log(view,element) }
+                    // }}
+                />
             </Col>
         </Row>
       </div>
