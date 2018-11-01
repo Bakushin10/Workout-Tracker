@@ -76,7 +76,7 @@ export default class Calendar extends React.Component {
         header: { 
             left: 'month,basicWeek,basicDay,listMonth',
             center: 'title', 
-            right: 'next customPrevButton,customNextButton today' 
+            right: 'prev next customPrevButton,customNextButton today' 
         },
         next:{
             customPrevButton:{ 
