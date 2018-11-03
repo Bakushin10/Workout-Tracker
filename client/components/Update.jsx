@@ -337,10 +337,9 @@ export default class Home extends React.Component {
                 return this.state[detail]
             }
         })
-
         return muscleUsed
     }
-
+    
     pickWorkOutDayOnClick(e, muscle){
         const self = this
         self.setState({workoutDay : muscle})
@@ -371,7 +370,7 @@ export default class Home extends React.Component {
         return(
             <div>
                 <Dropdown overlay={menu} placement="bottomLeft">
-                    <Button>bottomLeft</Button>
+                    <Button>Select Workout Day</Button>
                 </Dropdown>
             </div>
         )

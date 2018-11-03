@@ -3,10 +3,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { convertMonth } from './utility/dictionary';
 import { Row, Col } from 'antd';
- 
+import axios from 'axios';
+
 // ... and fullcalendar-reactwrapper.
 import FullCalendar from 'fullcalendar-reactwrapper';
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
+import Axios from 'axios';
 
 ///TODO
 /*
@@ -22,7 +24,7 @@ export default class Calendar extends React.Component {
         events:[
                 {
                     title: 'All Day Event',
-                    start: '2017-05-01'
+                    start: '2018-11-01'
                 },
                 {
                     title: 'Long Event',
@@ -52,11 +54,6 @@ export default class Calendar extends React.Component {
                 {
                     title: 'Birthday Party',
                     start: '2017-05-13T07:00:00'
-                },
-                {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2017-05-28'
                 }
         ],		
     }
@@ -68,7 +65,13 @@ export default class Calendar extends React.Component {
     const date = dates[2]
     const year = dates[3]
     const datePicked = year + "-" + month + "-" + date;
+    let self = this;
     this.setState({defaultDate : datePicked})
+
+    axios.get('getWorkoutForCalender').then(function(response){
+        console.log(response.data)
+        self.setState({events : response.data})
+    })
   }
   
   render() {
