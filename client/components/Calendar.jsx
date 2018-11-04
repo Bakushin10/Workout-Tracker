@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { convertMonth } from './utility/dictionary';
 import { Row, Col } from 'antd';
 import axios from 'axios';
+import Header from './utility/header';
 
 // ... and fullcalendar-reactwrapper.
 import FullCalendar from 'fullcalendar-reactwrapper';
@@ -113,9 +114,12 @@ export default class Calendar extends React.Component {
     
     return (
       <div id="example-component">
+        <Header/>
+        <br/>
         <Row gutter={8}>
             <Col span={12} offset={6}>
-                <FullCalendar {...options}
+                <FullCalendar
+                    {...options}
                     // ref={calendar => {
                     //     this.fullCalendar = calendar
                     //     if(this.fullCalendar !== null){
