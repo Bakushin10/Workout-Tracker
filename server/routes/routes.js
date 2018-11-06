@@ -38,6 +38,55 @@ router.get('/getWorkout',function(req, res) {
     })
 });
 
+const MUSCLE = new Map([
+    [0, 'chest'],
+    [1, 'back'],
+    [2, 'shoulder'],
+    [3, 'biceps'],
+    [4, 'triceps'],
+    [5, 'legs'],
+])
+
+const GETMUSCLE = (key) =>{
+    return MUSCLE.get(key)
+}
+
+router.get('/getWorkoutForCalender',function(req, res) {
+    const workout = require('../../models/workout');
+
+    workout.find({},function(err,response){
+
+        WorkoutData = []
+        for(let i = 0; i < response.length; i++){
+            let updatedSelectedItem = [];
+            for(let n = 0; n < response[i].muscleGroup.length;n++){
+
+                each_workout = {
+                    start: response[i].muscleGroup[n].date,
+                    title : response[i].muscleGroup[n].workoutDay + " day",
+                    exercise : []
+                }
+
+                const muscleUsed = response[i].muscleGroup[n].muscleUsed
+                for(let j = 0; j < muscleUsed.length; j++){
+                   // let muscleDetail = muscle + "Detail";
+                    if(muscleUsed[j]){
+                        const muscle = GETMUSCLE(j)
+                        const eachExercise = response[i].muscleGroup[n][muscle][0]
+                        each_workout.exercise.push(muscle)
+                        each_workout.exercise.push(eachExercise)
+                    }
+                }
+                WorkoutData.push(each_workout)
+            }
+        }
+        //console.log(WorkoutData)
+        if(err)
+            res.send(err);
+        res.json(WorkoutData);
+    })
+});
+
 router.route('/updateWorkout').post(function(req,res){
     var Workout = require('../../models/workout');
     var workout = new Workout();

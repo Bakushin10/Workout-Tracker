@@ -18,22 +18,30 @@ export default class Home extends React.Component {
             </Row>
             <div className="gutter-example">
                 <Row type="flex" justify="center">
-                    <a href="/#/Update">
-                        <Col span={4} className="gutter-row" span={4}>
-                            <Button type="primary" className = "fontSongMyung">
-                                update
-                            </Button>
-                        </Col>
-                    </a>
-                    <a href="/#/Home">
-                        <Col span={4} offset = {2} className="gutter-row" span={4}>
-                            <Button type="primary" className = "fontSongMyung">
-                                <a href="/#/Result" className="items">
-                                    Check Your Progress
-                                </a>
-                            </Button>
-                        </Col>
-                    </a>
+                    <Col span={4} className="gutter-row" span={4}>
+                        <Button type="primary" className = "fontSongMyung">
+                        <a href="/#/Update">
+                            update
+                            </a>
+                        </Button>
+                    </Col>
+                    
+                    <Col span={4} className="gutter-row" span={4}>
+                        <Button type="primary" className = "fontSongMyung">
+                            <a href="/#/Calendar" className="items">
+                                See Calendar
+                            </a>
+                        </Button>
+                    </Col>
+                
+                    <Col span={4} className="gutter-row" span={4}>
+                        <Button type="primary" className = "fontSongMyung">
+                            <a href="/#/Result" className="items">
+                                Check Your Progress
+                            </a>
+                        </Button>
+                    </Col>
+                   
                 </Row>
             </div>
         </div>

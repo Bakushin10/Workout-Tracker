@@ -31,6 +31,11 @@ export default class Head extends React.Component {
                 Results
               </a>
             </Menu.Item>
+            <Menu.Item key="4">
+              <a href="/#/Calendar" className="items">
+                Calendar
+              </a>
+            </Menu.Item>
           </Menu>
           </Header>
         {/* </div> 

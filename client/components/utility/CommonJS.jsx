@@ -18,7 +18,6 @@ export const getWorkoutDetail = (workOutDetails) =>{
     return workoutDetailArr;
 }
 
-
 export const MUSCLE = {
     CHEST: 'chest',
     BACK: 'back',
